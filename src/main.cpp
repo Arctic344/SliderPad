@@ -38,7 +38,7 @@ void setup() {
   Slider s3(p3,m3,t3);
   Slider s4(p4,m4,t4);
   Slider s5(p5,m5,t5);
-  Slider s6(p6,m6,t6);
+  Slider s6(p6,m6,t6); // Sliders cool
 
 
 
