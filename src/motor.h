@@ -16,21 +16,33 @@ class Motor {
             int inB;
             switch (this->MotorID) {
                 case 0:
-                    int enablepin = 0; 
-                    int inA = 1;
-                    int inB = 2;
+                {
+                    enablepin = 0; 
+                    inA = 1;
+                    inB = 2;
+                    break;
+                }
                 case 1:
-                    int enablepin = 5; 
-                    int inA = 4;
-                    int inB = 3;
+                {
+                    enablepin = 5; 
+                    inA = 4;
+                    inB = 3;
+                    break;
+                }
                 case 2:
-                    int enablepin = 8; 
-                    int inA = 9;
-                    int inB = 10;
+                {
+                    enablepin = 8; 
+                    inA = 9;
+                    inB = 10;
+                    break;
+                }
                 case 3:
-                    int enablepin = 13; 
-                    int inA = 12;
-                    int inB = 11;
+                {
+                    enablepin = 13; 
+                    inA = 12;
+                    inB = 11;
+                    break;
+                }
                 default:
                     Serial.println("Invalid Convert");
                     return;
