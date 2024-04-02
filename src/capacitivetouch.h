@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <Arduino.h>
 #define DEFAULT_THRESHOLD 60
 

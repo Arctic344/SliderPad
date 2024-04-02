@@ -1,6 +1,4 @@
 #pragma once
-
-#include <iostream>
 #include "Adafruit_PWMServoDriver.h"
 
 class Motor {
@@ -78,7 +76,7 @@ class Motor {
         }
         Motor() {
             this->MotorID = 0;
-            this->associatedDevice == nullptr;
+            this->associatedDevice = nullptr;
             this->speed = 0;
         }
 
