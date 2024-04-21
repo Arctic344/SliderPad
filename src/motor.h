@@ -45,18 +45,24 @@ class Motor {
                     Serial.println("Invalid Convert");
                     return;
             }
-            if (this->speed == 0) {
+            Serial.println("Found my pins, preparing to change driver states");
+            if (this->speed == 10000) { // Short brake functionality where in1 and in2 are high.
+                this->associatedDevice->setPin(enablepin,4095);
+                this->associatedDevice->setPin(inA,4095);
+                this->associatedDevice->setPin(inB,4095);
+            }
+            else if (this->speed == 0) { // Stop Mode
                 this->associatedDevice->setPin(enablepin,4095);
                 this->associatedDevice->setPin(inA,0);
                 this->associatedDevice->setPin(inB,0);
             }
             else if (this->speed > 0) {
-                this->associatedDevice->setPin(enablepin,this->speed);
+                this->associatedDevice->setPin(enablepin,this->speed); // Clockwise
                 this->associatedDevice->setPin(inA,4095);
                 this->associatedDevice->setPin(inB,0);
             }
             else if (this->speed < 0) {
-                this->associatedDevice->setPin(enablepin,abs(this->speed));
+                this->associatedDevice->setPin(enablepin,abs(this->speed)); // Anticlockwise
                 this->associatedDevice->setPin(inA,0);
                 this->associatedDevice->setPin(inB,4095);
             }
@@ -86,6 +92,11 @@ class Motor {
                 return;
             }
             this->speed = speed;
+            convertToAction();
+        }
+
+        void ShortBrakeDoubleHigh() { // public set speed method
+            this->speed = 10000; // secret code for short break functionality.
             convertToAction();
         }
         

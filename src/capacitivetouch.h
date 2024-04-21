@@ -21,9 +21,9 @@ class Capacitivetouch {
             this->threshold = DEFAULT_THRESHOLD;
         }
         bool readTouch() {
-            if (touchRead(this->pinNum) > this->threshold) {
-                return true;
-            }
+            // if (touchRead(this->pinNum) > this->threshold) {
+            //     return true;
+            // }
             return false;
         }
 };
