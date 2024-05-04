@@ -6,7 +6,7 @@ class Motor {
         Adafruit_PWMServoDriver* associatedDevice; // the PWMServoDriver device which has the motor attached
         int MotorID; // the position in which the motor is connected, it goes clockwise from 0 to 3, starting in the top left corner near the adress selector panel
         int speed; // the speed the motor is currently at, always between -4096 and 4096
-
+        bool invert; // if the actions of the motor should be inverted or not
 
         void convertToAction() {
             int enablepin;
@@ -73,6 +73,17 @@ class Motor {
     public:
         Motor(Adafruit_PWMServoDriver* PCA9685Ptr, int MotorID) { // Constructor for the Motor
             this->MotorID = MotorID;
+            this->invert = false;
+            if (MotorID > 3 || MotorID < 0) {
+                Serial.println("Invalid MotorID");
+                this->MotorID = 4;
+            }
+            this->associatedDevice = PCA9685Ptr;
+            return; 
+        }
+        Motor(Adafruit_PWMServoDriver* PCA9685Ptr, int MotorID, bool invert) { // Constructor for the Motor
+            this->MotorID = MotorID;
+            this->invert = invert;
             if (MotorID > 3 || MotorID < 0) {
                 Serial.println("Invalid MotorID");
                 this->MotorID = 4;
@@ -84,6 +95,7 @@ class Motor {
             this->MotorID = 0;
             this->associatedDevice = nullptr;
             this->speed = 0;
+            this->invert = false;
         }
 
         void setSpeed(int speed) { // public set speed method
@@ -92,6 +104,9 @@ class Motor {
                 return;
             }
             this->speed = speed;
+            if (this->invert) {
+                this->speed = speed*-1;
+            }
             convertToAction();
         }
 

@@ -27,7 +27,7 @@ class Mux {
             digitalWrite(this->B, (pinToRead& 0b010) >> 1);
             digitalWrite(this->C, (pinToRead& 0b100) >> 2);
             delayMicroseconds(1); // PLEASE REPLACE WITH MEASURED TIME CONSTANT FROM MEASURED INDUCTABNCE AND CAPACITANCE
-            return digitalRead(this->outputPin);
+            return analogRead(this->outputPin);
 
         }
 };

@@ -11,6 +11,9 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
         Capacitivetouch touch;
         int16_t currentposition;
         bool currenttouched;
+        int16_t goalPosition;
+        int16_t calibrateLow;
+        int16_t calibrateHigh;
     
     public:
         Slider(Pot pot, Motor motor, Capacitivetouch touch) { // regular declaration

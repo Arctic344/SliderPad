@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
-#define DEFAULT_THRESHOLD 60
+#define DEFAULT_THRESHOLD 65000
 
 class Capacitivetouch {
     private:
@@ -20,10 +20,13 @@ class Capacitivetouch {
             this->pinNum = -1;
             this->threshold = DEFAULT_THRESHOLD;
         }
-        bool readTouch() {
-            // if (touchRead(this->pinNum) > this->threshold) {
-            //     return true;
-            // }
+        bool readTouchBool() {
+            if (touchRead(this->pinNum) > this->threshold) {
+                return true;
+            }
             return false;
+        }
+        int readTouchValue() {
+            return touchRead(this->pinNum);
         }
 };
