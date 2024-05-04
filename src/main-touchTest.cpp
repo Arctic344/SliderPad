@@ -13,7 +13,7 @@ void setup() {
 
 void loop() {
   delay(100);
-  Serial.print("Pot value: ");
+  Serial.print("Touch value: ");
   Serial.println(t1.readTouchBool());
 }
 

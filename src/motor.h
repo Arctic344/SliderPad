@@ -45,7 +45,6 @@ class Motor {
                     Serial.println("Invalid Convert");
                     return;
             }
-            Serial.println("Found my pins, preparing to change driver states");
             if (this->speed == 10000) { // Short brake functionality where in1 and in2 are high.
                 this->associatedDevice->setPin(enablepin,4095);
                 this->associatedDevice->setPin(inA,4095);
@@ -99,11 +98,11 @@ class Motor {
         }
 
         void setSpeed(int speed) { // public set speed method
-            if (speed > 4095 || speed < -4096) {
+            if (speed > 100 || speed < -100) {
                 Serial.println("Not a valid speed");
                 return;
             }
-            this->speed = speed;
+            this->speed = map(speed,-4095,4096,-100,100);
             if (this->invert) {
                 this->speed = speed*-1;
             }

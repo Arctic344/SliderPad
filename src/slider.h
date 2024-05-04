@@ -31,11 +31,7 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
             Serial.println("Warning: A slider was not created properly, please check your code");
         }
         void calibrate() {
-            
-        }
-
-        void checkInputs() {
-            
+                  
         }
 
 };
