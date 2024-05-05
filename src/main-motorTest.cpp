@@ -11,7 +11,7 @@ Motor m1(&driver,1);
 
 void setup() {
   // The following sets up debug system and prints a message to check if initiated
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(500);
   Serial.println("Hello world");
 
@@ -28,10 +28,10 @@ void setup() {
 
 void loop() {
   Serial.println("Setting motor to fast");
-  m1.setSpeed(4000);
+  m1.setSpeed(70);
   delay(200);
   Serial.println("Setting motor to reverse");
-  m1.setSpeed(-4000);
+  m1.setSpeed(-70);
   delay(200);
   Serial.println("Setting motor to Stop");
   m1.setSpeed(0);

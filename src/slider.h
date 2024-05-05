@@ -27,6 +27,7 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
                 touch->updateTouchValue();
                 if (touch->get_touchBool()) {
                     wasTouched = true;
+                    Serial.println("Touch detected1, calibration interrupted");
                 }
 
                 if (wasTouched == false) {
@@ -34,9 +35,11 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
                 }
                 for (int i = 0; i < 400; i++) {
                     touch->updateTouchValue();
-                    if (touch->get_touchBool()) {
+                    if (touch->get_touchBool() || wasTouched == true) {
                         wasTouched = true;
+                        Serial.println("Touch detected2, calibration interrupted");
                         motor->setSpeed(0);
+                        break;
                     }
                     delay(1);
                 } 
@@ -50,13 +53,15 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
                 }
                 for (int i = 0; i < 400; i++) {
                     touch->updateTouchValue();
-                    if (touch->get_touchBool()) {
+                    if (touch->get_touchBool() || wasTouched == true) {
                         wasTouched = true;
+                        Serial.println("Touch detected3, calibration interrupted");
                         motor->setSpeed(0);
+                        break;
                     }
                     delay(1);
                 } 
-                if (wasTouched = false) {
+                if (wasTouched == false) {
                     pot->update_PotValue();
                     calibrateLow = pot->get_potValue();
                     break;
