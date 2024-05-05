@@ -26,7 +26,7 @@ public:
         // Default constructor with 1 chained register
     }
 
-    void readValue() {
+    void update_storedValue() {
         storedValue = 0;
         // Pulse the load pin to move the data from the shift register to storage register
         digitalWrite(loadPin, HIGH);
