@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Adafruit_PWMServoDriver.h>
-#include "steppedslider.h"
+#include "sliderclasses/steppedslider.h"
 #include <Wire.h>
 
 // The following sets up the driver for the Motors
@@ -37,6 +37,7 @@ void setup() {
 void loop() {
   Serial.println("calibrating Slider");
   slider1.calibrate();
+  Serial.println("Calibration complete");
   delay(5000);
   
 }

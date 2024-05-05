@@ -29,6 +29,9 @@ class SteppedSlider: public Slider{
         void setNumberOfNotches(int notches) {
             numberOfNotches = notches;
         }
+        int get_position() override {
+            return nearestNotch(pot->get_potValue());
+        }
     private:
         int notch_to_pos(int notchNo) {
             if (notchNo < 1) {
@@ -47,7 +50,18 @@ class SteppedSlider: public Slider{
                 if (abs(position - notch_to_pos(i)) < abs(distance)) {
                     distance = position - notch_to_pos(i);
                 }
-            return distance;
             }
+            return distance;
+        }
+        int nearestNotch(int position) {
+            int distance = 100;
+            int notch = 0;
+            for (int i = 0; i < numberOfNotches; i++) {
+                if (abs(position - notch_to_pos(i)) < abs(distance)) {
+                    distance = position - notch_to_pos(i);
+                    notch = i;
+                }
+            }
+            return notch;
         }
 };
