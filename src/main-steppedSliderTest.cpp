@@ -16,7 +16,7 @@ Capacitivetouch t1(1);
 Motor m1(&driver,1);
 
 // set up the slider
-SteppedSlider slider1(&m1,&p1,&t1,5);
+SteppedSlider slider1(&m1,&p1,&t1,3);
 
 Updater u1; 
 

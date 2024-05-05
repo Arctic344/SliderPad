@@ -9,7 +9,7 @@ IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);
 MC14051_Potentiometer p1(1,mux1ptr);
 
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(115200);
     Serial.println("Hello world");
 }
 

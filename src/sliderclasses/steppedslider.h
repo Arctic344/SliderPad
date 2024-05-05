@@ -13,8 +13,15 @@ class SteppedSlider: public Slider{
         }
 
         void update_Device() override {
+            Serial.print("pos:");
+            Serial.print(pot->get_potValue());
+            Serial.print("  notch:");
+            Serial.print(nearestNotch(pot->get_potValue()));
+            Serial.print("  distance:");
+            Serial.println(distanceToNearestNotch(pot->get_potValue()));
             if (abs(distanceToNearestNotch(pot->get_potValue() > 3))) {
                 motor->setSpeed(distanceToNearestNotch(pot->get_potValue()));
+                
             }
             else {
                 motor->setSpeed(0);
