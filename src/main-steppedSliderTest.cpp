@@ -10,7 +10,7 @@ IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);
 
 MC14051_Potentiometer p1(1,mux1ptr);
 
-Capacitivetouch t1(1);
+Capacitivetouch t1(1,70000);
 
 Motor m1(&driver,1);
 
@@ -19,7 +19,7 @@ SteppedSlider slider1(&m1,&p1,&t1,5);
 
 void setup() {
   // The following sets up debug system and prints a message to check if initiated
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(500);
   Serial.println("Hello world");
 

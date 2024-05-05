@@ -24,13 +24,12 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
         void calibrate() {
             while (true) {
                 bool wasTouched = false;
-
                 touch->updateTouchValue();
                 if (touch->get_touchBool()) {
                     wasTouched = true;
                 }
 
-                if (wasTouched = false) {
+                if (wasTouched == false) {
                     motor->setSpeed(70);
                 }
                 for (int i = 0; i < 400; i++) {
@@ -41,12 +40,12 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
                     }
                     delay(1);
                 } 
-                if (wasTouched = false) {
+                if (wasTouched == false) {
                     pot->update_PotValue();
                     calibrateHigh = pot->get_potValue();
                 }
 
-                if (wasTouched = false) {
+                if (wasTouched == false) {
                     motor->setSpeed(-70);
                 }
                 for (int i = 0; i < 400; i++) {

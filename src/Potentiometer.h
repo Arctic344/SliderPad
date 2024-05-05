@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 class Potentiometer {
-private:
+protected:
     int pin;
     int potValue; // private variable to store the readPot value
 
