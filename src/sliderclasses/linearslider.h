@@ -1,5 +1,5 @@
 #pragma once
-#include "../slider.h"
+#include "../Slider.h"
 
 class LinearSlider: public Slider{
 
