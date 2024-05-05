@@ -21,7 +21,7 @@ public:
         return this->potValue; 
     }
 
-    void updatePotValue() {
+    void update_PotValue() {
         potValue = map(analogRead(pin), 0, 4095, 0, 100); // save the mapped potValue in potValue
     }
 };

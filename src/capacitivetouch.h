@@ -7,7 +7,7 @@ class Capacitivetouch {
     private:
         int pinNum;
         int threshold;
-        int touchValue; // Added member variable to save touchRead value
+        int touchValue; 
     public:
         Capacitivetouch(int pinNum, int threshold) {
             this->pinNum = pinNum;
@@ -25,16 +25,16 @@ class Capacitivetouch {
             this->touchValue = 0; // Initialize touchValue
         }
         
-        bool readTouchBool() {
+        bool get_touchBool() {
             if (this->touchValue > this->threshold) {
                 return true;
             }
             return false;
         }
-        void updateTouchValue() { // Renamed readTouchValue to updateTouchValue
-            this->touchValue = touchRead(this->pinNum); // Save touchRead value
+        void updateTouchValue() { 
+            this->touchValue = touchRead(this->pinNum); 
         }
-        int get_touchValue() { // Renamed getSavedTouchValue to get_touchValue
+        int get_touchValue() { 
             return this->touchValue;
         }
 };

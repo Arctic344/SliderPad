@@ -20,7 +20,7 @@ public:
         this->associatedMux = nullptr;
         this->PinConnectPoint = 0;
     }
-    void updatePotValue() {
+    void update_PotValue() {
         potValue = this->associatedMux->ReadMux(this->PinConnectPoint);;
     }
 
