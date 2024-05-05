@@ -64,6 +64,7 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
                 if (wasTouched == false) {
                     pot->update_PotValue();
                     calibrateLow = pot->get_potValue();
+                    motor->setSpeed(0);
                     break;
                 }
                 Serial.println("Calibration was interrupted");

@@ -2,6 +2,7 @@
 #include <Adafruit_PWMServoDriver.h>
 #include "sliderclasses/steppedslider.h"
 #include <Wire.h>
+#include "Updater.h"
 
 // The following sets up the driver for the Motors
 Adafruit_PWMServoDriver driver(0x60);
@@ -10,14 +11,23 @@ IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);
 
 MC14051_Potentiometer p1(1,mux1ptr);
 
-Capacitivetouch t1(1,70000);
+Capacitivetouch t1(1);
 
 Motor m1(&driver,1);
 
 // set up the slider
 SteppedSlider slider1(&m1,&p1,&t1,5);
 
+Updater u1; 
+
+
+
+
+
+
 void setup() {
+  u1.addCapacitiveTouch(&t1);
+  u1.addPotentiometer(&p1);
   // The following sets up debug system and prints a message to check if initiated
   Serial.begin(115200);
   delay(500);
@@ -31,13 +41,14 @@ void setup() {
   for (int i = 1; i < 16; i++) {
     driver.setPin(1,0);
   }
+  Serial.println("calibrating Slider");
+  slider1.calibrate();
+  Serial.println("Calibration complete");
   
 }
 
 void loop() {
-  Serial.println("calibrating Slider");
-  slider1.calibrate();
-  Serial.println("Calibration complete");
-  delay(5000);
+  u1.update_Components();
+  slider1.update_Device();
   
 }

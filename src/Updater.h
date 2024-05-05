@@ -78,6 +78,9 @@ public:
     }
     
     void update_Components() {
+        for (int i = 0; i < ic_cd74hc165eCount; i++) {
+            ic_cd74hc165es[i]->update_storedValue();
+        }
         for (int i = 0; i < buttonCount; i++) {
             buttons[i]->update_state();
         }
@@ -87,8 +90,6 @@ public:
         for (int i = 0; i < capacitivetouchCount; i++) {
             capacitivetouches[i]->updateTouchValue();
         }
-        for (int i = 0; i < ic_cd74hc165eCount; i++) {
-            ic_cd74hc165es[i]->update_storedValue();
-        }
+
     }
 };

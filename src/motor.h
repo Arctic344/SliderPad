@@ -102,7 +102,7 @@ class Motor {
                 Serial.println("Not a valid speed");
                 return;
             }
-            this->speed = map(speed,-4095,4096,-100,100);
+            this->speed = map(speed,-100,100,-4095,4095);
             if (this->invert) {
                 this->speed = speed*-1;
             }

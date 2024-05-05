@@ -29,7 +29,7 @@ class SteppedSlider: public Slider{
         void setNumberOfNotches(int notches) {
             numberOfNotches = notches;
         }
-        int get_position() override {
+        int get_position() override {  
             return nearestNotch(pot->get_potValue());
         }
     private:

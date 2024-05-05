@@ -7,7 +7,7 @@
 Adafruit_PWMServoDriver driver(0x60);
 
 // The following sets up the motors
-Motor m1(&driver,1);
+Motor m1(&driver,3);
 
 void setup() {
   // The following sets up debug system and prints a message to check if initiated
