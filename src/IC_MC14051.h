@@ -1,13 +1,14 @@
+
 #pragma once
 #include <Arduino.h>
 
-class Mux {
+class IC_MC14051 {
     private:
         int outputPin;
         int A,B,C;
     
     public:
-        Mux(int outputPin, int A, int B, int C) {
+        IC_MC14051(int outputPin, int A, int B, int C) {
             this->outputPin = outputPin;
             this->A = A;
             this->B = B;

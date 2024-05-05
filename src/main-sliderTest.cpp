@@ -6,9 +6,9 @@
 // The following sets up the driver for the Motors
 Adafruit_PWMServoDriver driver(0x60);
 
-Mux *mux1ptr = new Mux(9,21,20,19);
+IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);
 
-Pot p1(1,mux1ptr);
+MC14051_Potentiometer p1(1,mux1ptr);
 
 Capacitivetouch t1(1);
 

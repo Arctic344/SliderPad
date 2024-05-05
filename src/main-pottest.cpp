@@ -1,12 +1,11 @@
 #include <Arduino.h>
 #include <Adafruit_PWMServoDriver.h>
-#include "slider.h"
-#include "pot.h"
+#include "MC14051_potentiometer.h"
 
 // put function declarations here:
-Mux *mux1ptr = new Mux(9,21,20,19);
+IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);
 
-Pot p1(1,mux1ptr);
+MC14051_Potentiometer p1(1,mux1ptr);
 
 void setup() {
     Serial.begin(9600);
@@ -16,6 +15,6 @@ void setup() {
 void loop() {
   delay(100);
   Serial.print("Pot value: ");
-  Serial.println(p1.readPot());
+  p1.updatePotValue();
+  Serial.println(p1.get_potValue());
 }
-
