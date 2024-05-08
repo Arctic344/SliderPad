@@ -1,9 +1,9 @@
 #pragma once
-
+#include "Node.h"
 #include <Arduino.h>
 #define DEFAULT_THRESHOLD 65000
 
-class Capacitivetouch {
+class Capacitivetouch : public Node {
     private:
         int pinNum;
         int threshold;
@@ -31,7 +31,7 @@ class Capacitivetouch {
             }
             return false;
         }
-        void updateTouchValue() { 
+        void update_nodeValue() override { 
             this->touchValue = touchRead(this->pinNum); 
         }
         int get_touchValue() { 

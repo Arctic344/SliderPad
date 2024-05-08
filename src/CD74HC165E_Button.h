@@ -21,7 +21,7 @@ class CD74HC165E_Button : public Button {
             return state;
         }
         
-        void update_state() {
+        void update_nodeValue() override {
             state = associatedDevice->get_storedBool(this->pin);
         }
 };

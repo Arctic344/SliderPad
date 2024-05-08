@@ -1,6 +1,7 @@
 #include <Arduino.h>
+#include "Node.h"
 
-class IC_CD74HC165E {
+class IC_CD74HC165E : public Node {
 private:
     int dataPin;                 // Serial Data Input (DS)
     int clockPin;                // Shift Register Clock Input (SH_CP)
@@ -26,7 +27,7 @@ public:
         // Default constructor with 1 chained register
     }
 
-    void update_storedValue() {
+    void update_nodeValue() override {
         storedValue = 0;
         // Pulse the load pin to move the data from the shift register to storage register
         digitalWrite(loadPin, HIGH);

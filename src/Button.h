@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 
-class Button {
+class Button : public Node{
     private:
         int pin;
         bool state;
@@ -17,7 +17,7 @@ class Button {
             return state;
         }
         
-        void update_state() {
+        void update_nodeValue() override {
             state = digitalRead(pin);
         }
 };

@@ -12,7 +12,7 @@ public:
     MC14051_Potentiometer(int pin, IC_MC14051* associatedMux) : Potentiometer(pin) {
         this->associatedMux = associatedMux;
     }
-    void update_PotValue() override {
+    void update_nodeValue() override {
         potValue = this->associatedMux->ReadMux(this->pin);;
     }
 };
