@@ -49,6 +49,7 @@ void setup() {
 
 void loop() {
   u1.update_Components();
-  slider1.update_Device();
+  p1.update_PotValue();
+  Serial.println(p1.get_potValue());  
   
 }

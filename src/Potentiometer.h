@@ -7,11 +7,6 @@ protected:
     int potValue; // private variable to store the readPot value
 
 public:
-    Potentiometer() {
-        pin = -1; // this will throw an error
-        potValue = 0; // initialize potValue to 0
-    }
-
     Potentiometer(int pin) {
         this->pin = pin;
         pinMode(pin, INPUT);

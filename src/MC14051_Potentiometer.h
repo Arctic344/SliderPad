@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 #include "IC_MC14051.h"
-#include "potentiometer.h"
+#include "Potentiometer.h"
 
 class MC14051_Potentiometer : public Potentiometer {
 private:
@@ -12,12 +12,7 @@ public:
     MC14051_Potentiometer(int pin, IC_MC14051* associatedMux) : Potentiometer(pin) {
         this->associatedMux = associatedMux;
     }
-
-    MC14051_Potentiometer() {
-        this->associatedMux = nullptr;
-        this->pin = 0;
-    }
-    void update_PotValue() {
+    void update_PotValue() override {
         potValue = this->associatedMux->ReadMux(this->pin);;
     }
 };
