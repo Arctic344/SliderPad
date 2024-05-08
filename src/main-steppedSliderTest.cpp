@@ -26,8 +26,8 @@ Updater u1;
 
 
 void setup() {
-  u1.addCapacitiveTouch(&t1);
-  u1.addPotentiometer(&p1);
+  u1.addNode(&t1);
+  u1.addNode(&p1);
   // The following sets up debug system and prints a message to check if initiated
   Serial.begin(115200);
   delay(500);
@@ -49,7 +49,5 @@ void setup() {
 
 void loop() {
   u1.update_Components();
-  p1.update_PotValue();
-  Serial.println(p1.get_potValue());  
-  
+  slider1.update_Device();
 }

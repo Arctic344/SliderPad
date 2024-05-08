@@ -40,34 +40,27 @@ class SteppedSlider: public Slider{
             return nearestNotch(pot->get_potValue());
         }
     private:
-        int notch_to_pos(int notchNo) {
-            if (notchNo < 1) {
-                return 50;
-            }
-            int returnValue = (notchNo * 100) / (this->numberOfNotches-1);
-            if (returnValue > 100) {
-                Serial.println("Error in notch amount. requested notch above current notches avaliable");
-                return 0;
-            }
-            return returnValue;
-        }
         int distanceToNearestNotch(int position) {
+            int interval = 100/(numberOfNotches-1);
             int distance = 100;
-            for (int i = 0; i < numberOfNotches; i++) {
-                if (abs(position - notch_to_pos(i)) < abs(distance)) {
-                    distance = position - notch_to_pos(i);
+            for (int i = 0; i <= 100; i+= interval) {
+                if (abs(position-i) < abs(distance)) {
+                    distance = position-i;
                 }
+                
             }
             return distance;
         }
         int nearestNotch(int position) {
+            int interval = 100/(numberOfNotches-1);
             int distance = 100;
             int notch = 0;
-            for (int i = 0; i < numberOfNotches; i++) {
-                if (abs(position - notch_to_pos(i)) < abs(distance)) {
-                    distance = position - notch_to_pos(i);
-                    notch = i;
+            for (int i = 0; i <= 100; i+= interval) {
+                if (abs(position-i) < abs(distance)) {
+                    distance = position-i;
+                    notch = i/interval;
                 }
+                
             }
             return notch;
         }

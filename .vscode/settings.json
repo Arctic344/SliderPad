@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "new": "cpp"
+        "new": "cpp",
+        "iterator": "cpp"
     },
     "cmake.configureOnOpen": false
 }

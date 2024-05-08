@@ -24,7 +24,7 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
         void calibrate() {
             while (true) {
                 bool wasTouched = false;
-                touch->updateTouchValue();
+                touch->update_nodeValue();
                 if (touch->get_touchBool()) {
                     wasTouched = true;
                     Serial.println("Touch detected1, calibration interrupted");
@@ -34,7 +34,7 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
                     motor->setSpeed(70);
                 }
                 for (int i = 0; i < 400; i++) {
-                    touch->updateTouchValue();
+                    touch->update_nodeValue();
                     if (touch->get_touchBool() || wasTouched == true) {
                         wasTouched = true;
                         Serial.println("Touch detected2, calibration interrupted");
@@ -44,7 +44,7 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
                     delay(1);
                 } 
                 if (wasTouched == false) {
-                    pot->update_PotValue();
+                    pot->update_nodeValue();
                     calibrateHigh = pot->get_potValue();
                 }
 
@@ -52,7 +52,7 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
                     motor->setSpeed(-70);
                 }
                 for (int i = 0; i < 400; i++) {
-                    touch->updateTouchValue();
+                    touch->update_nodeValue();
                     if (touch->get_touchBool() || wasTouched == true) {
                         wasTouched = true;
                         Serial.println("Touch detected3, calibration interrupted");
@@ -62,7 +62,7 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
                     delay(1);
                 } 
                 if (wasTouched == false) {
-                    pot->update_PotValue();
+                    pot->update_nodeValue();
                     calibrateLow = pot->get_potValue();
                     motor->setSpeed(0);
                     break;
