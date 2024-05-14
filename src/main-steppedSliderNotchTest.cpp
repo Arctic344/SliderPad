@@ -21,10 +21,6 @@ SteppedSlider slider1(&m1,&p1,&t1,1);
 Updater u1; 
 
 
-
-
-
-
 void setup() {
   u1.addNode(&t1);
   u1.addNode(&p1);
@@ -46,7 +42,18 @@ void setup() {
   Serial.println("Calibration complete");
 }
 
+
+int counter = 0;
+int n = 8;
+int numbers[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
 void loop() {
+  counter++;
   u1.update_Components();
   slider1.update_Device();
+  if (counter > 800) {
+    slider1.set_numberOfNotches(n);
+    n--;
+    counter = 0;
+  }
 }
