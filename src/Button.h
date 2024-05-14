@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 class Button : public Node{
-    private:
+    protected:
         int pin;
         bool state;
     
@@ -17,7 +17,7 @@ class Button : public Node{
             return state;
         }
         
-        void update_nodeValue() override {
+        void virtual update_nodeValue() override {
             state = digitalRead(pin);
         }
 };

@@ -14,7 +14,7 @@ void setup() {
 void loop() {
   delay(100);
   Serial.print("Touch value: ");
-  t1.updateTouchValue();
+  t1.update_nodeValue();
   Serial.println(t1.get_touchBool());
 }
 

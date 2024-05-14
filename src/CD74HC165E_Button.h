@@ -4,7 +4,7 @@
 #include "IC_CD74HC165E.h"
 
 class CD74HC165E_Button : public Button {
-    private:
+    protected:
         int pin;
         bool state;
         IC_CD74HC165E* associatedDevice; // Additional pointer to IC_CD74HC165E object
