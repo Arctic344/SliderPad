@@ -1,5 +1,5 @@
 #include <Adafruit_NeoPixel.h>
-
+#pragma once
 class Strip {
     private:
         Adafruit_NeoPixel* strip;
