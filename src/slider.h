@@ -76,4 +76,16 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
         bool isTouched() {
             return touch->get_touchBool();
         }
+
+        Motor* get_motor() {
+            return motor;
+        }
+
+        Capacitivetouch* get_touch() {
+            return touch;
+        }
+
+        Potentiometer* get_pot() {
+            return pot;
+        }
 };
