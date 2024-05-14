@@ -1,3 +1,4 @@
+#pragma once
 #include <Arduino.h>
 #include "Node.h"
 
@@ -28,21 +29,20 @@ public:
     }
 
     void update_nodeValue() override {
-        storedValue = 0;
-        // Pulse the load pin to move the data from the shift register to storage register
-        digitalWrite(loadPin, HIGH);
-        delayMicroseconds(2); // Adjust delay as needed
-        digitalWrite(loadPin, LOW);
-        // Read each bit serially
-        for (int j = 0; j < noOfChainedRegisters; j++) {
-            for (int i = 0; i < 8; i++) {
-                digitalWrite(clockPin, HIGH);
-                delayMicroseconds(1); // Adjust delay as needed
-                storedValue |= static_cast<uint64_t>(digitalRead(dataPin)) << (63 - (j * 8 + i)); // Read data from data pin
-                digitalWrite(clockPin, LOW);
-                delayMicroseconds(1);
-            }
+        unsigned char data = 0;  
+        digitalWrite(loadPin, LOW); // Pull latch low to start the data transfer
+        delayMicroseconds(5); // Small delay
+        digitalWrite(loadPin, HIGH); // Release latch to update shift register outputs
+        for (int i = 0; i < 8; ++i) {
+            // Shift in each bit from the CD74HC165E
+            digitalWrite(clockPin, HIGH); // Clock in the next bit
+            delayMicroseconds(5); // Small delay
+            bool bitValue = digitalRead(dataPin); // Read the bit from DATA_PIN
+            data |= (bitValue << (7 - i)); // Store the bit in the data byte
+            digitalWrite(clockPin, LOW); // Clock down
+            delayMicroseconds(5); // Small delay
         }
+        storedValue = data; // Store the read value
     }
 
     uint64_t get_storedValue() {
