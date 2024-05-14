@@ -20,4 +20,8 @@ class Button : public Node{
         void virtual update_nodeValue() override {
             state = digitalRead(pin);
         }
+
+        int get_pin() {
+            return pin;
+        }
 };
