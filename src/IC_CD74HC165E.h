@@ -29,11 +29,11 @@ public:
     }
 
     void update_nodeValue() override {
-        unsigned char data = 0;  
+        uint64_t data = 0;  
         digitalWrite(loadPin, LOW); // Pull latch low to start the data transfer
         delayMicroseconds(5); // Small delay
         digitalWrite(loadPin, HIGH); // Release latch to update shift register outputs
-        for (int i = 0; i < 8; ++i) {
+        for (int i = 0; i < (8*noOfChainedRegisters); ++i) {
             // Shift in each bit from the CD74HC165E
             digitalWrite(clockPin, HIGH); // Clock in the next bit
             delayMicroseconds(5); // Small delay
