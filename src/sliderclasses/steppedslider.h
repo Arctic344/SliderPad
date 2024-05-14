@@ -2,7 +2,7 @@
 #include "../slider.h"
 
 class SteppedSlider: public Slider{
-    private: 
+    protected: 
         int numberOfNotches;
         int strength;
         int speedToTarget;
@@ -125,7 +125,7 @@ class SteppedSlider: public Slider{
         void remove_goal() {
             this->goal = -100;
         }
-    private:
+    protected:
         
         int distanceToNearestNotch(int position) {
             if (numberOfNotches == 1) {

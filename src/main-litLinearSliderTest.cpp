@@ -1,8 +1,10 @@
 #include <Arduino.h>
 #include <Adafruit_PWMServoDriver.h>
-#include "sliderclasses/steppedslider.h"
+#include "sliderclasses/litlinearslider.h"
 #include <Wire.h>
 #include "Updater.h"
+#include "Strip.h"
+#include "Adafruit_NeoPixel.h"
 
 // The following sets up the driver for the Motors
 Adafruit_PWMServoDriver driver(0x60);
@@ -15,8 +17,10 @@ Capacitivetouch t1(1);
 
 Motor m1(&driver,1);
 
+Adafruit_NeoPixel stripof12(12, 4, NEO_GRB + NEO_KHZ800);
+Strip strip1(&stripof12,2,8);
 // set up the slider
-SteppedSlider slider1(&m1,&p1,&t1,3);
+LitLinearSlider slider1(&m1,&p1,&t1,&strip1);
 
 Updater u1; 
 
@@ -44,9 +48,11 @@ void setup() {
   Serial.println("calibrating Slider");
   slider1.calibrate();
   Serial.println("Calibration complete");
+  stripof12.begin();
 }
 
 void loop() {
   u1.update_Components();
   slider1.update_Device();
+  stripof12.show();
 }

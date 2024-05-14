@@ -2,7 +2,7 @@
 #include "../Slider.h"
 
 class LinearSlider: public Slider{
-    private:
+    protected:
         int speedToTarget;
         int goal;
     public:
