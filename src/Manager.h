@@ -4,19 +4,25 @@
 #include <Updater.h>
 #include <Display.h>
 #include <Menu.h>
+#include <sliderclasses/steppedslider.h>
+#include "Converter.h"
 
 class Manager {
 private:
-    Slider* menuSelectSlider;
+    SteppedSlider* menuSelectSlider;
     Button** menuButtons;
     int menuButtonCount;
     Updater* updater;
+    Converter* converter;
     int currentMenuIndex;
     Menu** menus;
+    Menu** activeMenus;
     int menuCount;
+    int amountOfActiveMenus;
     int MenuSwitchTimeout;
     int* menuButtonsLastState;
     long* lastMenuButtonPressTime;
+    int* menuButtonPressTimeout;
     int menuSlidersLastPosition;
     long lastMenuSwitchTime;
 
@@ -27,7 +33,6 @@ private:
     Display* display;
 
     int* buttonPressTimeout;
-    int* buttonHoldTimein;
     int* buttonReleaseTimeout;
     int* sliderTouchTimeout;
     int* sliderReleaseTimeout;
@@ -44,75 +49,172 @@ private:
     long currentTime;
 public:
     void virtual update_device() final {
+        // the follow section sets up the timing
         currentTime = millis();
         timeSinceLastScan = currentTime - lastScanTime;
         lastScanTime = currentTime;
+        // the following section updates all components
         updater->update_Components();
-        if (menuSelectSlider->get_position() != currentMenuIndex && currentTime - lastMenuSwitchTime > MenuSwitchTimeout) {
-            lastMenuSwitchTime = currentTime;
-            switchMenus();
-        }
-        for (int i = 0; i < menuButtonCount; i++) {
-            if (menuButtons[i]->get_state() != menuButtonsLastState[i]) {
-                if (menuButtons[i]->get_state() == true) {
-                    lastMenuButtonPressTime[i] = currentTime;
-                    // RUN EVENT: MENU BUTTON PRESSED
-                }
-                menuButtonsLastState[i] = menuButtons[i]->get_state();
+        // the following updates the list of menus that are active and changes system if new menus are active
+        int previousAmountOfActiveMenus = amountOfActiveMenus;
+        amountOfActiveMenus = 0;
+        delete[] activeMenus;
+        activeMenus = new Menu*[menuCount];
+        for (int i = 0; i < menuCount; i++) {
+            if (menus[i]->is_menuActive() == true) {
+                activeMenus[i] = menus[i];
+                amountOfActiveMenus++;
             }
         }
-    }
-    void switchMenus() {
-        if (millis() - lastMenuSwitchTime > MenuSwitchTimeout) {
-            currentMenuIndex = menuSelectSlider->get_position();
-            menus[currentMenuIndex]->draw_menu();
+        if (previousAmountOfActiveMenus != amountOfActiveMenus) {
+            Serial.print("Amount of active menus changed from ");
+            Serial.print(previousAmountOfActiveMenus);
+            Serial.print(" to ");
+            Serial.println(amountOfActiveMenus);
+            menuSelectSlider->set_numberOfNotches(amountOfActiveMenus);
         }
+        // the following section checks if the menu select slider value has changed and changes the menus if it has
+        if (menuSelectSlider->get_position() != currentMenuIndex && currentTime - lastMenuSwitchTime > MenuSwitchTimeout) {
+            lastMenuSwitchTime = currentTime;
+            activeMenus[currentMenuIndex]->on_MenuDeselected();
+            currentMenuIndex = menuSelectSlider->get_position();
+            activeMenus[currentMenuIndex]->on_MenuSelected();
+            lastMenuSwitchTime = currentTime;
+        }
+        // the following section checks if the menu buttons have been pressed
+        for (int i = 0; i < menuButtonCount; i++) {
+            if (menuButtons[i]->get_state() == true && menuButtonsLastState[i]== false && currentTime - lastMenuButtonPressTime[i] > menuButtonPressTimeout[i]) {
+                    lastMenuButtonPressTime[i] = currentTime;
+                    // RUN EVENT: MENU BUTTON PRESSED
+                    Serial.print("Menu button pressed ");
+                    Serial.println(i);
+            }
+            menuButtonsLastState[i] = menuButtons[i]->get_state();
+        }
+        // the following section checks if the sliders have been touched
+        for (int i = 0; i < sliderCount; i++) {
+            if (sliders[i]->isTouched() == true && slidersLastTouchState[i] == false && currentTime - lastsliderTouchTime[i] > sliderTouchTimeout[i]) {
+                lastsliderTouchTime[i] = currentTime;
+                // RUN EVENT: SLIDER TOUCHED
+                Serial.print("Slider touched ");
+                Serial.println(i);
+            }
+            slidersLastTouchState[i] = sliders[i]->isTouched();
+        }
+        // the following section checks if the sliders have been released
+        for (int i = 0; i < sliderCount; i++) {
+            if (sliders[i]->isTouched() == false && slidersLastTouchState[i] == true && currentTime - lastsliderTouchTime[i] > sliderReleaseTimeout[i]) {
+                lastsliderTouchTime[i] = currentTime;
+                // RUN EVENT: SLIDER RELEASED
+                Serial.print("Slider released ");
+                Serial.println(i);
+            }
+            slidersLastTouchState[i] = sliders[i]->isTouched();
+        }
+        // the following section checks if the sliders have been moved
+        for (int i = 0; i < sliderCount; i++) {
+            if (sliders[i]->get_position() != slidersLastPosition[i] && currentTime - lastsliderTouchTime[i] > sliderChangeTimeout[i]) {
+                slidersLastPosition[i] = sliders[i]->get_position();
+                // RUN EVENT: SLIDER MOVED
+                Serial.print("Slider moved ");
+                Serial.println(i);
+            }
+        }
+        // the following section checks if the buttons have been pressed
+        for (int i = 0; i < buttonCount; i++) {
+            if (buttons[i]->get_state() == true && buttonsLastState[i] == false && currentTime - lastbuttonPressTime[i] > buttonPressTimeout[i]) {
+                lastbuttonPressTime[i] = currentTime;
+                // RUN EVENT: BUTTON PRESSED
+                Serial.print("Button pressed ");
+                Serial.println(i);
+            }
+            buttonsLastState[i] = buttons[i]->get_state();
+        }
+        // the following section checks if the buttons have been released
+        for (int i = 0; i < buttonCount; i++) {
+            if (buttons[i]->get_state() == false && buttonsLastState[i] == true && currentTime - lastbuttonPressTime[i] > buttonReleaseTimeout[i]) {
+                lastbuttonPressTime[i] = currentTime;
+                // RUN EVENT: BUTTON RELEASED
+                Serial.print("Button released ");
+                Serial.println(i);
+            }
+            buttonsLastState[i] = buttons[i]->get_state();
+        }
+
+        
     }
+    void virtual run_drawFunction() final {
+        display->clear();
+        activeMenus[currentMenuIndex]->draw_menu();
+        display->drawRect(0,0,52,240,converter->RGBto565(255,255,255));
+        for (int i = 0; i < amountOfActiveMenus; i++) {
+            // draw corresponding menu icon in sidebar
+        }
+        return;
+    }
+
+
 public: // constructor
-    Manager(Slider* menuSelectSlider, Button** menuButtons, int menuButtonCount, Updater* updater, Menu** menus, int menuCount) {
+    Manager(SteppedSlider* menuSelectSlider, Button** menuButtons, int menuButtonCount, Updater* updater, Menu** menus, int menuCount, Slider** sliders, Button** buttons, int sliderCount, int buttonCount, Display* display) {
         this->menuSelectSlider = menuSelectSlider;
         this->menuButtons = menuButtons;
         this->menuButtonCount = menuButtonCount;
         this->updater = updater;
+        this->converter = new Converter();
         this->currentMenuIndex = 0;
         this->menus = menus;
         this->menuCount = menuCount;
-        this->MenuSwitchTimeout = 100;
-        buttonPressTimeout = new int[buttonCount];
-        buttonHoldTimein = new int[buttonCount];
-        buttonReleaseTimeout = new int[buttonCount];
+        this->MenuSwitchTimeout = 200;
+        this->menuButtonsLastState = new int[menuButtonCount];
+        this->lastMenuButtonPressTime = new long[menuButtonCount];
+        this->menuButtonPressTimeout = new int[menuButtonCount];
+        this->menuSlidersLastPosition = menuSelectSlider->get_position();
+        this->lastMenuSwitchTime = 0;
+        this->activeMenus = new Menu*[menuCount];
+        this->amountOfActiveMenus = 0;
+        this->sliders = sliders;
+        this->buttons = buttons;
+        this->buttonCount = buttonCount;
+        this->sliderCount = sliderCount;
+        this->display = display;
+        this->buttonPressTimeout = new int[buttonCount];
+        this->buttonReleaseTimeout = new int[buttonCount];
+        this->sliderTouchTimeout = new int[sliderCount];
+        this->sliderReleaseTimeout = new int[sliderCount];
+        this->sliderChangeTimeout = new int[sliderCount];
+
+        this->slidersLastPosition = new int[sliderCount];
+        this->slidersLastTouchState = new int[sliderCount];
+        this->buttonsLastState = new int[buttonCount];
+        this->lastScanTime = millis();
+        this->timeSinceLastScan = 0;
+        this->lastbuttonPressTime = new long[buttonCount];
+        this->lastsliderTouchTime = new long[sliderCount];
+        this->currentTime = millis();
+
         for (int i = 0; i < menuButtonCount; i++) {
+            menuButtonsLastState[i] = false;
+            lastMenuButtonPressTime[i] = 0;
+            menuButtonPressTimeout[i] = 100;
+        }
+        for (int i = 0; i < buttonCount; i++) {
+            buttonsLastState[i] = false;
+            lastbuttonPressTime[i] = 0;
             buttonPressTimeout[i] = 100;
-            buttonHoldTimein[i] = 1000;
             buttonReleaseTimeout[i] = 100;
         }
-        sliderChangeTimeout = new int[sliderCount];
-        sliderTouchTimeout = new int[sliderCount];
-        sliderReleaseTimeout = new int[sliderCount];
-
-
-        slidersLastPosition = new int[sliderCount];
-        buttonsLastState = new int[buttonCount];
-        lastbuttonPressTime = new long[buttonCount];
-        lastsliderTouchTime = new long[sliderCount];
         for (int i = 0; i < sliderCount; i++) {
-            sliderChangeTimeout[i] = 1000;
-            sliderTouchTimeout[i] = 200;
-            sliderReleaseTimeout[i] = 200;
+            slidersLastPosition[i] = sliders[i]->get_position();
+            slidersLastTouchState[i] = sliders[i]->isTouched();
+            lastsliderTouchTime[i] = 0;
+            sliderTouchTimeout[i] = 100;
+            sliderReleaseTimeout[i] = 100;
+            sliderChangeTimeout[i] = 100;
         }
-        menuButtonsLastState = new int[menuButtonCount];
-        lastMenuButtonPressTime = new long[menuButtonCount];
-        slidersLastTouchState = new int[sliderCount];
-        lastMenuSwitchTime = 0;
-        lastScanTime = 0;
-        timeSinceLastScan = 0;
     }
 public: // This section is for setting timeouts for the buttons and sliders
     int set_buttonPressTimeout(int buttonIndex, int timeout) {
         buttonPressTimeout[buttonIndex] = timeout;
-    }
-    int set_buttonHoldTimein(int buttonIndex, int timeout) {
-        buttonHoldTimein[buttonIndex] = timeout;
     }
     int set_buttonReleaseTimeout(int buttonIndex, int timeout) {
         buttonReleaseTimeout[buttonIndex] = timeout;

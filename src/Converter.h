@@ -12,6 +12,8 @@
 
 class Converter {
 public:
+    Converter() {
+    }
     Slider* convertToCenteredSlider(Slider* s) {
         Slider* returnpointer = new CenteredSlider(s->get_motor(), s->get_pot(), s->get_touch());
         delete s;
@@ -56,5 +58,18 @@ public:
         CD74HC165E_Button* returnpointer = new CD74HC165E_Button(b->get_pin(),b->get_associatedDevice());
         delete b;
         return returnpointer;
-    }
+    }   
+    uint16_t RGBto565(uint8_t red, uint8_t green, uint8_t blue) {
+    // Mask and shift the red component to 5 bits
+    uint16_t r = (red >> 3) & 0x1F;
+    // Mask and shift the green component to 6 bits
+    uint16_t g = (green >> 2) & 0x3F;
+    // Mask and shift the blue component to 5 bits
+    uint16_t b = (blue >> 3) & 0x1F;
+
+    // Combine the components into a single 16-bit value
+    uint16_t rgb565 = (r << 11) | (g << 5) | b;
+
+    return rgb565;
+}
 };
