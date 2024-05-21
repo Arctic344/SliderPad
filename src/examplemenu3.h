@@ -2,19 +2,17 @@
 #include "Menu.h"
 #include "AdafruitIO_WiFi.h"
 #include "Secrets.h"
-
+#include <Arduino.h>
+AdafruitIO_WiFi io(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS);
+AdafruitIO_Feed *SliderPadTestValue = io.feed("SliderPadTestValue");
 
 class Example3 : public Menu {
     private:
-        AdafruitIO_WiFi io;
-        AdafruitIO_Feed *SliderPadTestValue;
     public:
-    Example3() : Menu(1), io(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS) {
+    Example3() : Menu(1) {
     }
     public:
     void on_setup() override{
-        io = AdafruitIO_WiFi(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS);
-        AdafruitIO_Feed *SliderPadTestValue = io.feed("SliderPadTestValue");
         Serial.println("Example 3 setup");
         Serial.print("Connecting to Adafruit IO");
         io.connect();
@@ -22,6 +20,8 @@ class Example3 : public Menu {
             Serial.print(".");
             delay(500);
         }
+        Serial.println("Connected");
+        delay(10000);
     }
 
 

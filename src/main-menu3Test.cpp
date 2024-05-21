@@ -77,15 +77,18 @@ SteppedSlider* s1 = new SteppedSlider(m1,p1,t1,0);
 
 // create the array with the menus you would like to use
 // create a list of menus
-#define menuCount 2
+#define menuCount 3
 Menu* menus[menuCount] = {
   new Example1(),
   new Example2(),
+  new Example3()
 };
 
 
 
-void setup() {
+void setup() {  
+  Serial.begin(115200);
+  Serial.println("Hello world");
   Wire.setPins(18,8);
   driver.begin();
   stripof12.begin();
@@ -123,8 +126,7 @@ void setup() {
 
   // create updater and add updater to list
 
-  Serial.begin(115200);
-  Serial.println("Hello world");
+
   s1->calibrate();
 }
 

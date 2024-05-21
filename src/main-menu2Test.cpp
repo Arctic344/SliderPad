@@ -77,11 +77,10 @@ SteppedSlider* s1 = new SteppedSlider(m1,p1,t1,0);
 
 // create the array with the menus you would like to use
 // create a list of menus
-#define menuCount 3
+#define menuCount 2
 Menu* menus[menuCount] = {
   new Example1(),
   new Example2(),
-  new Example3()
 };
 
 

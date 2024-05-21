@@ -151,6 +151,8 @@ public:
             }
             menuButtonsLastState[i] = menuButtons[i]->get_state();
         }
+
+        activeMenus[currentMenuIndex]->run_menu();
         // the following section checks if the sliders have been touched
         //Serial.println("Check if sliders have been touched");
         for (int i = 0; i < sliderCount; i++) {
