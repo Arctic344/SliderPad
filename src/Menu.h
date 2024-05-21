@@ -5,9 +5,12 @@
 #include "Display.h"
 #include "Converter.h"
 
+class Manager; // foreward declaration since i will have a loop here
+
 class Menu {
     private:
         int id;
+        Manager* manager;
     public:
         Menu(int id) {
             this->id = id;
@@ -71,5 +74,8 @@ class Menu {
         }
         int get_id() {
             return id;
+        }
+        void set_manager(Manager* manager) {
+            this->manager = manager;
         }
 };

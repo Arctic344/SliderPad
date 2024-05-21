@@ -311,6 +311,7 @@ public: // constructor
             sliderChangeTimeout[i] = 100;
         }
         for (int i = 0; i < menuCount; i++) {
+            menus[i]->set_manager(this);
             menus[i]->on_setup();
         }
     }
@@ -342,6 +343,15 @@ public: // This section is for getting infomation about the buttons and sliders
     }
     int get_sliderPosition(int sliderIndex) {
         return sliders[sliderIndex]->get_position();
+    }
+    Slider* get_slider(int sliderIndex) {
+        return sliders[sliderIndex];
+    }
+    Button* get_button(int buttonIndex) {
+        return buttons[buttonIndex];
+    }
+    Strip* get_strip() {
+        return strip;
     }
 
 
