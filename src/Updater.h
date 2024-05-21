@@ -30,10 +30,7 @@ public:
     }
 
     void update_Components() {
-        Serial.println("Updating components");
-        Serial.println(nodeCount);
         for (int i = 0; i < nodeCount; i++) {
-            Serial.println("Updating componentsss");
             nodes[i]->update_nodeValue();
         }
     }

@@ -50,16 +50,35 @@ private:
 public:
     void update_device() {
         // the follow section sets up the timing
-        Serial.println("Current time");
+        //Serial.println("Current time");
         this->currentTime = millis();
-        Serial.println("Got current time");
+        //Serial.println("Got current time");
         timeSinceLastScan = currentTime - lastScanTime;
         lastScanTime = currentTime;
         // the following section updates all components
-        Serial.println("Update components");
+        //Serial.println("Update components");
         updater->update_Components();
+
+        // In the following section, i will make a readout of all the states of all the buttons and sliders
+
+        Serial.print("MS: ");
+        Serial.print(menuSelectSlider->get_position());
+        Serial.print("  MB: ");
+        for (int i = 0; i < menuButtonCount; i++) {
+            Serial.print(menuButtons[i]->get_state());
+        }
+        Serial.print("  S: ");
+        for (int i = 0; i < sliderCount; i++) {
+            Serial.print(sliders[i]->get_position());
+        }
+        Serial.print("  B: ");
+        for (int i = 0; i < buttonCount; i++) {
+            Serial.print(buttons[i]->get_state());
+        }
+        Serial.println();
+
         // the following updates the list of menus that are active and changes system if new menus are active
-        Serial.println("Update active menu list");
+        //Serial.println("Update active menu list");
         int previousAmountOfActiveMenus = amountOfActiveMenus;
         amountOfActiveMenus = 0;
         delete[] activeMenus;
@@ -70,7 +89,7 @@ public:
                 amountOfActiveMenus++;
             }
         }
-        Serial.println("Check if amount of active menus has changed");
+        //Serial.println("Check if amount of active menus has changed");
         if (previousAmountOfActiveMenus != amountOfActiveMenus) {
             Serial.print("Amount of active menus changed from ");
             Serial.print(previousAmountOfActiveMenus);
@@ -79,7 +98,7 @@ public:
             menuSelectSlider->set_numberOfNotches(amountOfActiveMenus);
         }
         // the following section checks if the menu select slider value has changed and changes the menus if it has
-        Serial.println("Check if menu slider has changed");
+        //Serial.println("Check if menu slider has changed");
         if (menuSelectSlider->get_position() != currentMenuIndex && currentTime - lastMenuSwitchTime > MenuSwitchTimeout) {
             lastMenuSwitchTime = currentTime;
             activeMenus[currentMenuIndex]->on_MenuDeselected();
@@ -87,7 +106,7 @@ public:
             activeMenus[currentMenuIndex]->on_MenuSelected();
             lastMenuSwitchTime = currentTime;
         }
-        Serial.println("Check if menu buttons have been pressed");
+        //Serial.println("Check if menu buttons have been pressed");
         // the following section checks if the menu buttons have been pressed
         for (int i = 0; i < menuButtonCount; i++) {
             if (menuButtons[i]->get_state() == true && menuButtonsLastState[i]== false && currentTime - lastMenuButtonPressTime[i] > menuButtonPressTimeout[i]) {
@@ -99,7 +118,7 @@ public:
             menuButtonsLastState[i] = menuButtons[i]->get_state();
         }
         // the following section checks if the sliders have been touched
-        Serial.println("Check if sliders have been touched");
+        //Serial.println("Check if sliders have been touched");
         for (int i = 0; i < sliderCount; i++) {
             if (sliders[i]->isTouched() == true && slidersLastTouchState[i] == false && currentTime - lastsliderTouchTime[i] > sliderTouchTimeout[i]) {
                 lastsliderTouchTime[i] = currentTime;
@@ -110,7 +129,7 @@ public:
             slidersLastTouchState[i] = sliders[i]->isTouched();
         }
         // the following section checks if the sliders have been released
-        Serial.println("Check if sliders have been released");
+        //Serial.println("Check if sliders have been released");
         for (int i = 0; i < sliderCount; i++) {
             if (sliders[i]->isTouched() == false && slidersLastTouchState[i] == true && currentTime - lastsliderTouchTime[i] > sliderReleaseTimeout[i]) {
                 lastsliderTouchTime[i] = currentTime;
@@ -121,7 +140,7 @@ public:
             slidersLastTouchState[i] = sliders[i]->isTouched();
         }
         // the following section checks if the sliders have been moved
-        Serial.println("Check if sliders have been moved");
+        //Serial.println("Check if sliders have been moved");
         for (int i = 0; i < sliderCount; i++) {
             if (sliders[i]->get_position() != slidersLastPosition[i] && currentTime - lastsliderTouchTime[i] > sliderChangeTimeout[i]) {
                 slidersLastPosition[i] = sliders[i]->get_position();
@@ -131,7 +150,7 @@ public:
             }
         }
         // the following section checks if the buttons have been pressed
-        Serial.println("Check if buttons have been pressed");
+        //Serial.println("Check if buttons have been pressed");
         for (int i = 0; i < buttonCount; i++) {
             if (buttons[i]->get_state() == true && buttonsLastState[i] == false && currentTime - lastbuttonPressTime[i] > buttonPressTimeout[i]) {
                 lastbuttonPressTime[i] = currentTime;
@@ -142,7 +161,7 @@ public:
             buttonsLastState[i] = buttons[i]->get_state();
         }
         // the following section checks if the buttons have been released
-        Serial.println("Check if buttons have been released");
+        //Serial.println("Check if buttons have been released");
         for (int i = 0; i < buttonCount; i++) {
             if (buttons[i]->get_state() == false && buttonsLastState[i] == true && currentTime - lastbuttonPressTime[i] > buttonReleaseTimeout[i]) {
                 lastbuttonPressTime[i] = currentTime;
