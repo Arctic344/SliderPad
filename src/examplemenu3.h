@@ -1,6 +1,7 @@
 #pragma once
 #include "Menu.h"
 #include "AdafruitIO_WiFi.h"
+#include "Secrets.h"
 
 
 class Example3 : public Menu {
@@ -12,6 +13,7 @@ class Example3 : public Menu {
     }
     public:
     void on_setup() override{
+        io = AdafruitIO_WiFi(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS);
         AdafruitIO_Feed *SliderPadTestValue = io.feed("SliderPadTestValue");
         Serial.println("Example 3 setup");
         Serial.print("Connecting to Adafruit IO");

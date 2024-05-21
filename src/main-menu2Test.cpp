@@ -86,7 +86,9 @@ Menu* menus[menuCount] = {
 
 
 
-void setup() {
+void setup() {  
+  Serial.begin(115200);
+  Serial.println("Hello world");
   Wire.setPins(18,8);
   driver.begin();
   stripof12.begin();
@@ -124,8 +126,7 @@ void setup() {
 
   // create updater and add updater to list
 
-  Serial.begin(115200);
-  Serial.println("Hello world");
+
   s1->calibrate();
 }
 
