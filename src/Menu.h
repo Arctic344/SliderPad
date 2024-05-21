@@ -7,8 +7,11 @@
 
 class Menu {
     private:
+        int id;
     public:
-        Menu() {}
+        Menu(int id) {
+            this->id = id;
+        }
         void virtual run_menu() {
             Serial.println("Warning: MENU RUN FUNCTION NOT DEFINED");
             return;
