@@ -20,10 +20,10 @@ class LinearSlider: public Slider{
                 motor->setSpeed(0);
                 return;
             }
-            if (abs(get_position() - goal) < 3) {
+            if (abs(pot->get_potValue() - goal) < 3) {
                 motor->setSpeed(0);
                 goal = -100;
-            } else if (get_position() - goal > 0) {
+            } else if (pot->get_potValue() - goal > 0) {
                 motor->setSpeed(speedToTarget);
             } else {
                 motor->setSpeed(speedToTarget*-1);
@@ -31,6 +31,8 @@ class LinearSlider: public Slider{
         }
 
         int get_position() override {
+            if (goal != -100)
+                return goal;
             return pot->get_potValue();
         }
 

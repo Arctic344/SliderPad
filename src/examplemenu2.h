@@ -17,11 +17,8 @@ class Example2 : public Menu {
     }
 
     void on_MenuSelected() override{
-        Serial.println("Attempting conversion to steppedSlider");
         manager->convert_toSteppedSlider(0,5);
-        manager->get_slider(0)->set_strength(30);
         manager->get_slider(0)->set_goal(3);
-        manager->get_slider(0)->set_goal(0);
         manager->get_strip()->updateAll(0, 0, 0);
         manager->set_buttonReleaseTimeout(0,0);
         manager->set_buttonReleaseTimeout(1,0);

@@ -3,6 +3,7 @@
 #include "sliderclasses/linearslider.h"
 #include <Wire.h>
 #include "Updater.h"
+#include "Adafruit_ILI9341.h"
 
 // The following sets up the driver for the Motors
 Adafruit_PWMServoDriver driver(0x60);

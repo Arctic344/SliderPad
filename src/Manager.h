@@ -277,7 +277,7 @@ public: // constructor
         this->menuButtonCount = menuButtonCount;
         this->updater = updater;
         this->converter = new Converter();
-        this->currentMenuIndex = 0;
+        this->currentMenuIndex = -1;
         this->menus = menus;
         this->menuCount = menuCount;
         this->MenuSwitchTimeout = 200;

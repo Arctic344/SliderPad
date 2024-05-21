@@ -17,9 +17,7 @@ class Example1 : public Menu {
     }
 
     void on_MenuSelected() override{
-        Serial.println("Attempting conversion to linearSlider");
         manager->convert_toLinearSlider(0);
-        manager->get_slider(0)->set_strength(30);
         manager->get_slider(0)->set_goal(20);
         manager->get_strip()->updateAll(0, 0, 0);
         manager->set_buttonReleaseTimeout(0,0);

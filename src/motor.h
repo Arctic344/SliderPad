@@ -104,7 +104,7 @@ class Motor {
             }
             this->speed = map(speed,-100,100,-4095,4095);
             if (this->invert) {
-                this->speed = speed*-1;
+                this->speed = this->speed*-1;
             }
             convertToAction();
         }
