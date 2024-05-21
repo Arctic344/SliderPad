@@ -34,7 +34,7 @@ void setup() {
   Serial.println("Hello world");
 
   // The following sets up the I2C communication ports
-  Wire.setPins(11,12);
+  Wire.setPins(18,8);
 
   // The following sets up the Motor Driver/s and sets all the pins to 0 to reset the device
   driver.begin();

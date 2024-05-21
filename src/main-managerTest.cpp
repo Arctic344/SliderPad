@@ -24,16 +24,12 @@ Capacitivetouch t1(1);
 Motor m1(&driver,1);
 // define slider
 // define the 4 buttons
-CD74HC165E_Button b1(5,&ic);
-CD74HC165E_Button b2(0,&ic);
-CD74HC165E_Button b3(6,&ic);
-CD74HC165E_Button b4(7,&ic);
 
 // create a list and add buttons b1 to b3
 Button* givenButtons[3] = {
-  new CD74HC165E_Button(5,&ic),
   new CD74HC165E_Button(0,&ic),
-  new CD74HC165E_Button(6,&ic)};
+  new CD74HC165E_Button(6,&ic),
+  new CD74HC165E_Button(7,&ic)};
 // create another list with button b1 only
 Button* menuButtons[1] = {
   new CD74HC165E_Button(5,&ic)
@@ -51,7 +47,7 @@ Display d1(0,1,2,3,4,5);
 Updater u1;
 
 void setup() {
-
+  Wire.setPins(18,8);
   u1.addNode(&ic);
   u1.addNode(givenButtons[0]);
   u1.addNode(givenButtons[1]);
@@ -78,8 +74,6 @@ void setup() {
   Serial.println("Hello world");
 }
 void loop() {
-  Serial.print(b1.get_state()+b2.get_state()*2+b3.get_state()*4+b4.get_state()*8);
-  Serial.print(" ");
   manager->update_device();
 }
 

@@ -3,6 +3,8 @@
 #include "slider.h"
 #include <Wire.h>
 
+// Defunct test, only used for early testing of the slider
+
 // The following sets up the driver for the Motors
 Adafruit_PWMServoDriver driver(0x60);
 
@@ -24,7 +26,7 @@ void setup() {
   Serial.println("Hello world");
 
   // The following sets up the I2C communication ports
-  Wire.setPins(11,12);
+  Wire.setPins(18,8);
 
   // The following sets up the Motor Driver/s and sets all the pins to 0 to reset the device
   driver.begin();

@@ -61,21 +61,21 @@ public:
 
         // In the following section, i will make a readout of all the states of all the buttons and sliders
 
-        Serial.print("MS: ");
-        Serial.print(menuSelectSlider->get_position());
-        Serial.print("  MB: ");
-        for (int i = 0; i < menuButtonCount; i++) {
-            Serial.print(menuButtons[i]->get_state());
-        }
-        Serial.print("  S: ");
-        for (int i = 0; i < sliderCount; i++) {
-            Serial.print(sliders[i]->get_position());
-        }
-        Serial.print("  B: ");
-        for (int i = 0; i < buttonCount; i++) {
-            Serial.print(buttons[i]->get_state());
-        }
-        Serial.println();
+        // Serial.print("MS: ");
+        // Serial.print(menuSelectSlider->get_position());
+        // Serial.print("  MB: ");
+        // for (int i = 0; i < menuButtonCount; i++) {
+        //     Serial.print(menuButtons[i]->get_state());
+        // }
+        // Serial.print("  S: ");
+        // for (int i = 0; i < sliderCount; i++) {
+        //     Serial.print(sliders[i]->get_position());
+        // }
+        // Serial.print("  B: ");
+        // for (int i = 0; i < buttonCount; i++) {
+        //     Serial.print(buttons[i]->get_state());
+        // }
+        // Serial.println();
 
         // the following updates the list of menus that are active and changes system if new menus are active
         //Serial.println("Update active menu list");
@@ -158,7 +158,6 @@ public:
                 Serial.print("Button pressed ");
                 Serial.println(i);
             }
-            buttonsLastState[i] = buttons[i]->get_state();
         }
         // the following section checks if the buttons have been released
         //Serial.println("Check if buttons have been released");
