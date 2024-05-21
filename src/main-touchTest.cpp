@@ -2,6 +2,7 @@
 #include <Adafruit_PWMServoDriver.h>
 #include "capacitivetouch.h"
 #include "Adafruit_ILI9341.h"
+#include "AdafruitIO_WiFi.h"
 
 // put function declarations here:
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Menu.h"
+#include "AdafruitIO_WiFi.h"
 
 class Example3 : public Menu {
     private:
@@ -9,12 +10,7 @@ class Example3 : public Menu {
     }
     public:
     bool is_menuActive() override{
-        if (millis()%10000 < 5000) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return true;
     }
     void on_ButtonPress(int buttonIndex, Button* button) override{
         Serial.println("Example 3 did button press");

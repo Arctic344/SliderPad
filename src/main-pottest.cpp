@@ -3,6 +3,7 @@
 #include "MC14051_potentiometer.h"
 #include "Updater.h"
 #include "Adafruit_ILI9341.h"
+#include "AdafruitIO_WiFi.h"
 
 // put function declarations here:
 IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);

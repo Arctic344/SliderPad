@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <Adafruit_PWMServoDriver.h>
 #include <Adafruit_NeoPixel.h>
+#include "Adafruit_ILI9341.h"
+#include "AdafruitIO_WiFi.h"
 
 // put function declarations here:
 

@@ -10,6 +10,8 @@
 #include "sliderclasses/steppedslider.h"
 #include "Menu.h"
 #include "Manager.h"
+#include "Adafruit_ILI9341.h"
+#include "AdafruitIO_WiFi.h"
 
 // include the menus you would like to
 #include "examplemenu1.h"

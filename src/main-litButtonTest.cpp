@@ -4,6 +4,8 @@
 #include "Updater.h"
 #include "ledCD74HC165E_Button.h"
 #include "Strip.h"
+#include "Adafruit_ILI9341.h"
+#include "AdafruitIO_WiFi.h"
 
 Adafruit_NeoPixel stripof12(12, 4, NEO_GRB + NEO_KHZ800);
 Strip strip1(&stripof12,0,1);

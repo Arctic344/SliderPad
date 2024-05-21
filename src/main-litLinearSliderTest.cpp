@@ -5,6 +5,8 @@
 #include "Updater.h"
 #include "Strip.h"
 #include "Adafruit_NeoPixel.h"
+#include "Adafruit_ILI9341.h"
+#include "AdafruitIO_WiFi.h"
 
 // The following sets up the driver for the Motors
 Adafruit_PWMServoDriver driver(0x60);

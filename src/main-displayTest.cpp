@@ -5,6 +5,8 @@
 #include "CD74HC165E_Button.h"
 #include "TFT_eSPI.h"
 #include "SPI.h"
+#include "Adafruit_ILI9341.h"
+#include "AdafruitIO_WiFi.h"
 
 
 IC_CD74HC165E ic(37,36,35,1);
