@@ -30,9 +30,14 @@ CD74HC165E_Button b3(6,&ic);
 CD74HC165E_Button b4(7,&ic);
 
 // create a list and add buttons b1 to b3
-Button* givenButtons[3] = {&b2,&b3,&b4};
+Button* givenButtons[3] = {
+  new CD74HC165E_Button(5,&ic),
+  new CD74HC165E_Button(0,&ic),
+  new CD74HC165E_Button(6,&ic)};
 // create another list with button b1 only
-Button* menuButtons[1] = {&b1};
+Button* menuButtons[1] = {
+  new CD74HC165E_Button(5,&ic)
+};
 // create an empty list of sliders
 Slider** sliders = nullptr;
 
@@ -48,10 +53,10 @@ Updater u1;
 void setup() {
 
   u1.addNode(&ic);
-  u1.addNode(&b1);
-  u1.addNode(&b2);
-  u1.addNode(&b3);
-  u1.addNode(&b4);
+  u1.addNode(givenButtons[0]);
+  u1.addNode(givenButtons[1]);
+  u1.addNode(givenButtons[2]);
+  u1.addNode(menuButtons[0]);
   u1.addNode(&t1);
   manager = new Manager(
     new SteppedSlider(&m1,&p1,&t1,0),
@@ -73,6 +78,8 @@ void setup() {
   Serial.println("Hello world");
 }
 void loop() {
+  Serial.print(b1.get_state()+b2.get_state()*2+b3.get_state()*4+b4.get_state()*8);
+  Serial.print(" ");
   manager->update_device();
 }
 

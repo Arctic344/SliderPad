@@ -3,6 +3,7 @@
 #include "IC_CD74HC165E.h"
 #include "Updater.h"
 #include "CD74HC165E_Button.h"
+#include "Adafruit_ILI9341.h"
 
 
 IC_CD74HC165E ic(37,36,35,1);
@@ -11,6 +12,8 @@ CD74HC165E_Button b1(5,&ic);
 CD74HC165E_Button b2(0,&ic);
 CD74HC165E_Button b3(6,&ic);
 CD74HC165E_Button b4(7,&ic);
+
+CD74HC165E_Button* givenButtons[4] = {&b1,&b2,&b3,&b4};
 
 
 
@@ -32,13 +35,17 @@ void setup() {
 
 void loop() {
   u1.update_Components();
-  Serial.print("Button state1: ");
   Serial.print(b1.get_state());
-  Serial.print(" Button state2: ");
   Serial.print(b2.get_state());
-  Serial.print(" Button state3: ");
   Serial.print(b3.get_state());
-  Serial.print(" Button state4: ");
-  Serial.println(b4.get_state());
+  Serial.print(b4.get_state());
+  Serial.print(" ");
+  for (int i = 0; i < 4; i++) {
+    Serial.print("  Button ");
+    Serial.print(i);
+    Serial.print(" state: ");
+    Serial.print(givenButtons[i]->get_state());
+  }
+  Serial.println();
   
 }
