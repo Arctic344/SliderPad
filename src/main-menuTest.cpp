@@ -12,6 +12,7 @@
 #include "Manager.h"
 #include "examplemenu1.h"
 #include "examplemenu2.h"
+#include "examplemenu3.h"
 
 
 Manager* manager = nullptr;
@@ -43,9 +44,9 @@ SteppedSlider* s1 = new SteppedSlider(m1,p1,t1,0);
 
 // create two menus
 // create a list of menus
-Menu* menus[2] = {
+Menu* menus[3] = {
   new Example1(),
-  new Example2()
+  new Example2(),
 };
 
 Display d1(0,1,2,3,4,5);
