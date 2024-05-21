@@ -88,4 +88,24 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
         Potentiometer* get_pot() {
             return pot;
         }
+        
+        virtual void set_speedToTarget(int value) {
+            Serial.println("ERROR: This function is not implemented for this class");
+        }
+        virtual void set_goal(int goal) {
+            Serial.println("ERROR: This function is not implemented for this class");
+        }
+        virtual void remove_goal() {
+            Serial.println("ERROR: This function is not implemented for this class");
+        }
+        virtual void set_strength(int strength) {
+            Serial.println("ERROR: This function is not implemented for this class");
+        }
+        virtual void set_numberOfNotches(int notches) {
+            Serial.println("ERROR: This function is not implemented for this class");
+        }
+        virtual int getNumberOfNotches() {
+            Serial.println("ERROR: This function is not implemented for this class");
+            return 0;
+        }
 };

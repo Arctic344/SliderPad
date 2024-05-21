@@ -69,4 +69,7 @@ class Menu {
             Serial.println("Warning: MENU DESELECTED FUNCTION NOT DEFINED");
             return;
         }
+        int get_id() {
+            return id;
+        }
 };

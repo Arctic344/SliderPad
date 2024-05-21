@@ -34,18 +34,18 @@ class LinearSlider: public Slider{
             return pot->get_potValue();
         }
 
-        void set_speedToTarget(int value) {
+        void set_speedToTarget(int value) override {
             speedToTarget = 30+value;
         }
 
-        void set_goal(int value) {
+        void set_goal(int value)  override{
             if (value >= 0 && value <= 100) {
                 goal = value;
             } else {
                 // Handle invalid goal value here (e.g. throw an exception or set a default value)
             }
         }
-        void remove_goal() {
+        void remove_goal() override {
             goal = -100;
         }
 };

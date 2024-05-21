@@ -1,17 +1,20 @@
 
 #pragma once
 #include "Node.h"
+#include "Adafruit_NeoPixel.h"
 
 
 class Updater {
 private:
     Node** nodes;
     int nodeCount;
+    Adafruit_NeoPixel* strip;
 
 public:
     Updater() {
         nodes = nullptr;
         nodeCount = 0;
+        strip = nullptr;
     }
 
     ~Updater() {
@@ -28,10 +31,15 @@ public:
         nodes = newNodes;
         nodeCount++;
     }
-
+    void setStrip(Adafruit_NeoPixel* strip) {
+        this->strip = strip;
+    }
     void update_Components() {
         for (int i = 0; i < nodeCount; i++) {
             nodes[i]->update_nodeValue();
+        }
+        if (strip != nullptr) {
+            strip->show();
         }
     }
 };

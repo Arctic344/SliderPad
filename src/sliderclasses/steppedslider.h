@@ -80,13 +80,13 @@ class SteppedSlider: public Slider{
         int getNumberOfNotches() const {
             return numberOfNotches;
         }
-        void set_strength(int strength) {
+        void set_strength(int strength) override {
             this->strength = 15.88+strength;
         }
-        void set_speedToTarget(int speed) {
+        void set_speedToTarget(int speed) override {
             this->speedToTarget = 30+speed;
         }
-        void set_numberOfNotches(int notches) {
+        void set_numberOfNotches(int notches) override {
             if (notches < 1) {
                 return; //exception needed
             }
@@ -115,14 +115,14 @@ class SteppedSlider: public Slider{
             }
             return nearestNotch(goal);
         }
-        void set_goal(int goal) {
+        void set_goal(int goal) override {
             if (goal > numberOfNotches) {
                 return;
             }
             int interval = 100/(numberOfNotches-1);
             this->goal = interval*goal;
         }
-        void remove_goal() {
+        void remove_goal() override {
             this->goal = -100;
         }
     protected:

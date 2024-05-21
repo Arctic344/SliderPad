@@ -25,7 +25,7 @@ class CenteredSlider: public Slider{
             return 50-pot->get_potValue();
         }
 
-        void set_speedToTarget(int value) {
+        void set_speedToTarget(int value) override {
             speedToTarget = 30+value;
         }
 };

@@ -62,6 +62,9 @@ Slider* sliders[givenSliderCount] = {};
 Display d1(0,1,2,3,4,5);
 Updater u1;
 
+Adafruit_NeoPixel stripof12(12, 4, NEO_GRB + NEO_KHZ800);
+Strip strip1(&stripof12,0,2);
+Strip strip2(&stripof12,2,10);
 
 // allocate your MenuSelectionSlider (must have exactly 1)
 SteppedSlider* s1 = new SteppedSlider(m1,p1,t1,0);
@@ -79,6 +82,7 @@ Menu* menus[menuCount] = {
 void setup() {
   Wire.setPins(18,8);
   driver.begin();
+  stripof12.begin();
   for (int i = 1; i < 16; i++) {
     driver.setPin(1,0);
   }
@@ -92,6 +96,7 @@ void setup() {
   }
   u1.addNode(t1);
   u1.addNode(p1);
+  u1.setStrip(&stripof12);
   manager = new Manager(
     s1,
     menuButtons,
@@ -100,9 +105,11 @@ void setup() {
     menus,
     menuCount,
     sliders,
-    givenButtons,
     0,
+    givenButtons,
     givenButtonCount,
+    &strip1,
+    &strip2,
     &d1
   );
 

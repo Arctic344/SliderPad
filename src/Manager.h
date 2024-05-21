@@ -7,6 +7,8 @@
 #include <Menu.h>
 #include <sliderclasses/steppedslider.h>
 #include "Converter.h"
+#include "Adafruit_NeoPixel.h"
+#include "Strip.h"
 
 class Manager {
 private:
@@ -26,6 +28,8 @@ private:
     int* menuButtonPressTimeout;
     int menuSlidersLastPosition;
     long lastMenuSwitchTime;
+    Strip* menuStrip;
+    Strip* strip;
 
     Slider** sliders;
     Button** buttons;
@@ -60,6 +64,7 @@ public:
         //Serial.println("Update components");
         updater->update_Components();
         menuSelectSlider->update_Device();
+
 
         // In the following section, i will make a readout of all the states of all the buttons and sliders
 
@@ -103,9 +108,23 @@ public:
         //Serial.println("Check if menu slider has changed");
         if (menuSelectSlider->get_position() != currentMenuIndex && currentTime - lastMenuSwitchTime > MenuSwitchTimeout) {
             lastMenuSwitchTime = currentTime;
-            activeMenus[currentMenuIndex]->on_MenuDeselected();
+            try {
+                activeMenus[currentMenuIndex]->on_MenuDeselected();
+            } catch (const std::exception& e) {
+                Serial.print("Error on Menu Deselect of activeMenu with ID: ");
+                Serial.print(activeMenus[currentMenuIndex] -> get_id());
+                Serial.print(" Error: ");
+                Serial.println(e.what());
+            }
             currentMenuIndex = menuSelectSlider->get_position();
-            activeMenus[currentMenuIndex]->on_MenuSelected();
+            try {
+                activeMenus[currentMenuIndex]->on_MenuSelected();
+            } catch (const std::exception& e) {
+                Serial.print("Error on Menu Select of activeMenu with ID: ");
+                Serial.print(activeMenus[currentMenuIndex] -> get_id());
+                Serial.print(" Error: ");
+                Serial.println(e.what());
+            }
             lastMenuSwitchTime = currentTime;
         }
         //Serial.println("Check if menu buttons have been pressed");
@@ -116,6 +135,16 @@ public:
                     // RUN EVENT: MENU BUTTON PRESSED
                     Serial.print("Manager button pressed ");
                     Serial.println(i);
+                    menuStrip->updateAll(255,255,255);
+            }
+        }
+        // the following section checks if menu buttons have been released
+        for (int i = 0; i < menuButtonCount; i++) {
+            if (menuButtons[i]->get_state() == false && menuButtonsLastState[i] == true) {
+                // RUN EVENT: MENU BUTTON RELEASED
+                Serial.print("Manager button released ");
+                Serial.println(i);
+                menuStrip->updateAll(0,0,0);
             }
             menuButtonsLastState[i] = menuButtons[i]->get_state();
         }
@@ -125,7 +154,14 @@ public:
             if (sliders[i]->isTouched() == true && slidersLastTouchState[i] == false && currentTime - lastsliderTouchTime[i] > sliderTouchTimeout[i]) {
                 lastsliderTouchTime[i] = currentTime;
                 // RUN EVENT: SLIDER TOUCHED
-                activeMenus[currentMenuIndex]->on_SliderTouch(i, sliders[i]);
+                try {
+                    activeMenus[currentMenuIndex]->on_SliderTouch(i, sliders[i]);
+                } catch (const std::exception& e) {
+                    Serial.print("Error on Slider Touch of activeMenu with ID: ");
+                    Serial.print(activeMenus[currentMenuIndex] -> get_id());
+                    Serial.print(" Error: ");
+                    Serial.println(e.what());
+                }
             }
         }
         // the following section checks if the sliders have been released
@@ -133,8 +169,15 @@ public:
         for (int i = 0; i < sliderCount; i++) {
             if (sliders[i]->isTouched() == false && slidersLastTouchState[i] == true && currentTime - lastsliderTouchTime[i] > sliderReleaseTimeout[i]) {
                 lastsliderTouchTime[i] = currentTime;
+                try {
+                    activeMenus[currentMenuIndex]->on_SliderRelease(i, sliders[i]);
+                } catch (const std::exception& e) {
+                    Serial.print("Error on Slider Release of activeMenu with ID: ");
+                    Serial.print(activeMenus[currentMenuIndex] -> get_id());
+                    Serial.print(" Error: ");
+                    Serial.println(e.what());
+                }
                 // RUN EVENT: SLIDER RELEASED
-                activeMenus[currentMenuIndex]->on_SliderRelease(i, sliders[i]);
             }
             slidersLastTouchState[i] = sliders[i]->isTouched();
         }
@@ -144,7 +187,14 @@ public:
             if (abs(sliders[i]->get_position() - slidersLastTransmittedPosition[i]) > 2 && currentTime - lastsliderTouchTime[i] > sliderChangeTimeout[i]) {
                 slidersLastTransmittedPosition[i] = sliders[i]->get_position();
                 // RUN EVENT: SLIDER MOVED
-                activeMenus[currentMenuIndex]->on_SliderChange(i, sliders[i]);
+                try {
+                    activeMenus[currentMenuIndex]->on_SliderChange(i, sliders[i]);
+                } catch (const std::exception& e) {
+                    Serial.print("Error on Slider Change of activeMenu with ID: ");
+                    Serial.print(activeMenus[currentMenuIndex] -> get_id());
+                    Serial.print(" Error: ");
+                    Serial.println(e.what());
+                }
             }
         }
         // the following section checks if the buttons have been pressed
@@ -153,7 +203,14 @@ public:
             if (buttons[i]->get_state() == true && buttonsLastState[i] == false && currentTime - lastbuttonPressTime[i] > buttonPressTimeout[i]) {
                 lastbuttonPressTime[i] = currentTime;
                 // RUN EVENT: BUTTON PRESSED
-                activeMenus[currentMenuIndex]->on_ButtonPress(i, buttons[i]);
+                try {
+                    activeMenus[currentMenuIndex]->on_ButtonPress(i, buttons[i]);
+                } catch (const std::exception& e) {
+                    Serial.print("Error on Button Press of activeMenu with ID: ");
+                    Serial.print(activeMenus[currentMenuIndex] -> get_id());
+                    Serial.print(" Error: ");
+                    Serial.println(e.what());
+                }
             }
         }
         // the following section checks if the buttons have been released
@@ -162,7 +219,14 @@ public:
             if (buttons[i]->get_state() == false && buttonsLastState[i] == true && currentTime - lastbuttonPressTime[i] > buttonReleaseTimeout[i]) {
                 lastbuttonPressTime[i] = currentTime;
                 // RUN EVENT: BUTTON RELEASED
-                activeMenus[currentMenuIndex]->on_ButtonRelease(i, buttons[i]);
+                try {
+                    activeMenus[currentMenuIndex]->on_ButtonRelease(i, buttons[i]);
+                } catch (const std::exception& e) {
+                    Serial.print("Error on Button Release of activeMenu with ID: ");
+                    Serial.print(activeMenus[currentMenuIndex] -> get_id());
+                    Serial.print(" Error: ");
+                    Serial.println(e.what());
+                }
             }
             buttonsLastState[i] = buttons[i]->get_state();
         }
@@ -174,13 +238,21 @@ public:
         activeMenus[currentMenuIndex]->draw_menu();
         display->drawRect(0,0,52,240,converter->RGBto565(255,255,255));
         for (int i = 0; i < amountOfActiveMenus; i++) {
+            try {
+                display->drawBitmap(0, i*60, activeMenus[i]->get_menuIcon(), 52, 60);
+            } catch (const std::exception& e) {
+                Serial.print("Error on Bitmap draw of activeMenu with ID: ");
+                Serial.print(activeMenus[i] -> get_id());
+                Serial.print(" Error: ");
+                Serial.println(e.what());
             // draw corresponding menu icon in sidebar
+            }
         }
     }
 
 
 public: // constructor
-    Manager(SteppedSlider* menuSelectSlider, Button** menuButtons, int menuButtonCount, Updater* updater, Menu** menus, int menuCount, Slider** sliders, Button** buttons, int sliderCount, int buttonCount, Display* display) {
+    Manager(SteppedSlider* menuSelectSlider, Button** menuButtons, int menuButtonCount, Updater* updater, Menu** menus, int menuCount, Slider** sliders,  int sliderCount, Button** buttons, int buttonCount, Strip* menuStrip, Strip* strip, Display* display) {
         this->menuSelectSlider = menuSelectSlider;
         this->menuButtons = menuButtons;
         this->menuButtonCount = menuButtonCount;
@@ -202,6 +274,8 @@ public: // constructor
         this->buttonCount = buttonCount;
         this->sliderCount = sliderCount;
         this->display = display;
+        this->menuStrip = menuStrip;
+        this->strip = strip;
         this->buttonPressTimeout = new int[buttonCount];
         this->buttonReleaseTimeout = new int[buttonCount];
         this->sliderTouchTimeout = new int[sliderCount];

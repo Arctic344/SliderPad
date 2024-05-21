@@ -9,6 +9,11 @@ class Strip {
         Strip(Adafruit_NeoPixel* strip, uint16_t startIndex, uint16_t noOfLights) {
             this->strip = strip;
             this->startIndex = startIndex;
+            if (strip->numPixels() < startIndex + noOfLights) {
+                this->noOfLights = noOfLights;
+            } else {
+                this->noOfLights = strip->numPixels() - startIndex;
+            }
             this->noOfLights = noOfLights;
         }
         
