@@ -1,3 +1,4 @@
+#pragma once
 #include <Arduino.h>
 #include <Slider.h>
 #include <Button.h>
@@ -58,6 +59,7 @@ public:
         // the following section updates all components
         //Serial.println("Update components");
         updater->update_Components();
+        menuSelectSlider->update_Device();
 
         // In the following section, i will make a readout of all the states of all the buttons and sliders
 

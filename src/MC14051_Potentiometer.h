@@ -13,6 +13,6 @@ public:
         this->associatedMux = associatedMux;
     }
     void update_nodeValue() override {
-        potValue = this->associatedMux->ReadMux(this->pin);;
+        potValue = this->associatedMux->ReadMux(this->pin);
     }
-};
+}; 

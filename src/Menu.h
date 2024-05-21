@@ -1,9 +1,9 @@
+#pragma once
 #include "Arduino.h"
 #include "Slider.h"
 #include "Button.h"
 #include "Display.h"
 #include "Converter.h"
-#pragma once
 
 class Menu {
     private:

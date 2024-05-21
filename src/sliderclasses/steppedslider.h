@@ -19,17 +19,17 @@ class SteppedSlider: public Slider{
         }
 
         void update_Device() override {
-            Serial.print("notch no:");
-            Serial.print(numberOfNotches);
-            Serial.print("   -pos:");
-            Serial.print(pot->get_potValue());
-            Serial.print("  notch:");
-            Serial.print(nearestNotch(pot->get_potValue()));
-            Serial.print("  distance:");
-            Serial.print(distanceToNearestNotch(pot->get_potValue()));
-            Serial.print("  goal:");
-            Serial.print(goal);
-            Serial.print("   force:");
+            // Serial.print("notch no:");
+            // Serial.print(numberOfNotches);
+            // Serial.print("   -pos:");
+            // Serial.print(pot->get_potValue());
+            // Serial.print("  notch:");
+            // Serial.print(nearestNotch(pot->get_potValue()));
+            // Serial.print("  distance:");
+            // Serial.print(distanceToNearestNotch(pot->get_potValue()));
+            // Serial.print("  goal:");
+            // Serial.print(goal);
+            // Serial.print("   force:");
             if (touch->get_touchBool()){
                 goal = -100;
             }
@@ -45,20 +45,20 @@ class SteppedSlider: public Slider{
                     motor->setSpeed(0);
                 
                 }
-                Serial.println("1notch");
+                //Serial.println("1notch");
             }
             else if (goal == -100) {
                 if (abs(distanceToNearestNotch(pot->get_potValue())) < 3) {
                     motor->setSpeed(0);
-                    Serial.println("0");
+                    //Serial.println("0");
                 }
                 else if (touch->get_touchBool()) {
                     motor->setSpeed(touchedTransferFunction());
-                    Serial.println(touchedTransferFunction());
+                    // Serial.println(touchedTransferFunction());
                 }
                 else {
                     motor->setSpeed(untouchedTransferFunction());
-                    Serial.println(untouchedTransferFunction());
+                    // Serial.println(untouchedTransferFunction());
                 }
             }
             else {
@@ -71,7 +71,7 @@ class SteppedSlider: public Slider{
                         motor->setSpeed(speedToTarget);
                     }
                 }
-                Serial.println("goal decision");
+                //Serial.println("goal decision");
             }
             
 
@@ -103,11 +103,11 @@ class SteppedSlider: public Slider{
             if (this->goal > 100) {
                 goal = 100;
             }
-            Serial.print("set goal to:");
-            Serial.println(nearestNotch(pot->get_potValue())*interval);
+            //Serial.print("set goal to:");
+            //Serial.println(nearestNotch(pot->get_potValue())*interval);
             numberOfNotches = notches;
-            Serial.print("Set notches to:");
-            Serial.println(numberOfNotches);
+            //Serial.print("Set notches to:");
+            //Serial.println(numberOfNotches);
         }
         int get_position() override {  
             if (goal == -100) {

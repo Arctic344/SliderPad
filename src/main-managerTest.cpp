@@ -19,9 +19,9 @@ Adafruit_PWMServoDriver driver(0x60);
 IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);
 
 // define all components of a slider
-MC14051_Potentiometer p1(1,mux1ptr);
-Capacitivetouch t1(1);
-Motor m1(&driver,1);
+Potentiometer* p1 = new MC14051_Potentiometer(1,mux1ptr);
+Capacitivetouch* t1 = new Capacitivetouch(1);
+Motor* m1 = new Motor(&driver,1);
 // define slider
 // define the 4 buttons
 
@@ -37,9 +37,11 @@ Button* menuButtons[1] = {
 // create an empty list of sliders
 Slider** sliders = nullptr;
 
+SteppedSlider* s1 = new SteppedSlider(m1,p1,t1,0);
+
 // create two menus
-Menu exampleMenu1(420); //arbitrary ID
-Menu exampleMenu2(69420);
+Menu exampleMenu1(69); //arbitrary ID
+Menu exampleMenu2(420);
 // create a list of menus
 Menu* menus[2] = {&exampleMenu1,&exampleMenu2};
 
@@ -48,14 +50,20 @@ Updater u1;
 
 void setup() {
   Wire.setPins(18,8);
+  driver.begin();
+  for (int i = 1; i < 16; i++) {
+    driver.setPin(1,0);
+  }
+
   u1.addNode(&ic);
   u1.addNode(givenButtons[0]);
   u1.addNode(givenButtons[1]);
   u1.addNode(givenButtons[2]);
   u1.addNode(menuButtons[0]);
-  u1.addNode(&t1);
+  u1.addNode(t1);
+  u1.addNode(p1);
   manager = new Manager(
-    new SteppedSlider(&m1,&p1,&t1,0),
+    s1,
     menuButtons,
     1,
     &u1,
@@ -72,6 +80,7 @@ void setup() {
 
   Serial.begin(115200);
   Serial.println("Hello world");
+  s1->calibrate();
 }
 void loop() {
   manager->update_device();

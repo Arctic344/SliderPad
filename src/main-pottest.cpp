@@ -2,6 +2,7 @@
 #include <Adafruit_PWMServoDriver.h>
 #include "MC14051_potentiometer.h"
 #include "Updater.h"
+#include "Adafruit_ILI9341.h"
 
 // put function declarations here:
 IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);
@@ -16,6 +17,6 @@ void setup() {
 void loop() {
   delay(100);
   Serial.print("Pot value: ");
-  p1.update_PotValue();
+  p1.update_nodeValue();
   Serial.println(p1.get_potValue());
 }

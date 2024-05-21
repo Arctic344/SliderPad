@@ -1,13 +1,14 @@
 #include <Arduino.h>
 #include <Adafruit_PWMServoDriver.h>
 #include "capacitivetouch.h"
+#include "Adafruit_ILI9341.h"
 
 // put function declarations here:
 
 Capacitivetouch t1(1);
 
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(115200);
     Serial.println("Hello world");
 }
 
