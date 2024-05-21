@@ -10,6 +10,11 @@ class Example1 : public Menu {
     void on_ButtonPress(int buttonIndex, Button* button) override{
         manager->get_strip()->updateLed(buttonIndex, 255, 0, 0);
     }
+
+    void on_ButtonRelease(int buttonIndex, Button* button) override{
+        manager->get_strip()->updateLed(buttonIndex, 0, 0, 0);
+    }
+    
     void on_MenuSelected() override{
         manager->get_strip()->updateAll(0, 0, 0);
         manager->set_buttonReleaseTimeout(0,0);

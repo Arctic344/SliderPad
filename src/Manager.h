@@ -395,5 +395,66 @@ public: // This section is for getting infomation about the buttons and sliders
         }
     }
 
+    int get_menuCount() {
+        return menuCount;
+    }
+    int get_activeMenuCount() {
+        return amountOfActiveMenus;
+    }
+    int get_currentMenuIndex() {
+        return currentMenuIndex;
+    }
+    int get_lastTimeScanned() {
+        return lastScanTime;
+    }
+    int get_timeSinceLastScan() {
+        return timeSinceLastScan;
+    }
+    int get_lastButtonPressTime(int buttonIndex) {
+        try {
+            return lastbuttonPressTime[buttonIndex];
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return -1; // or any suitable default value indicating an error
+        }
+    }
+    int get_lastSliderTouchTime(int sliderIndex) {
+        try {
+            return lastsliderTouchTime[sliderIndex];
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return -1; // or any suitable default value indicating an error
+        }
+    }
+    int get_currentTime() {
+        return currentTime;
+    }
+    int get_slidersLastTransmittedPosition(int sliderIndex) {
+        try {
+            return slidersLastTransmittedPosition[sliderIndex];
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return -1; // or any suitable default value indicating an error
+        }
+    }
+    int get_slidersLastTouchState(int sliderIndex) {
+        try {
+            return slidersLastTouchState[sliderIndex];
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return -1; // or any suitable default value indicating an error
+        }
+    }
+    int get_buttonsLastState(int buttonIndex) {
+        try {
+            return buttonsLastState[buttonIndex];
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return -1; // or any suitable default value indicating an error
+        }
+    }
+
+
+
 
 };
