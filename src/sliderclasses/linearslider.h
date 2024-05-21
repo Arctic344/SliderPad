@@ -48,4 +48,7 @@ class LinearSlider: public Slider{
         void remove_goal() override {
             goal = -100;
         }
+        bool isNoisy() override {
+            return 1;
+        }
 };

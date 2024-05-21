@@ -108,4 +108,7 @@ class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised 
             Serial.println("ERROR: This function is not implemented for this class");
             return 0;
         }
+        virtual bool isNoisy() {
+            return 0;
+        }
 };

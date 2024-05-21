@@ -36,7 +36,7 @@ Capacitivetouch* t1 = new Capacitivetouch(1);
 Motor* m1 = new Motor(&driver,1);
 Potentiometer* p2 = new MC14051_Potentiometer(2,mux1ptr);
 Capacitivetouch* t2 = new Capacitivetouch(2);
-Motor* m2 = new Motor(&driver,2);
+Motor* m2 = new Motor(&driver,2,1);
 
 
 
@@ -59,7 +59,7 @@ Button* menuButtons[menuButtonCount] = {
 // create the list of sliders for the manager
 #define givenSliderCount 1
 Slider* sliders[givenSliderCount] = {
-  new LinearSlider(m2,p2,t2)
+  new SteppedSlider(m2,p2,t2,3)
 };
 
 

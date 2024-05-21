@@ -64,6 +64,9 @@ public:
         //Serial.println("Update components");
         updater->update_Components();
         menuSelectSlider->update_Device();
+        for (int i = 0; i < sliderCount; i++) {
+            sliders[i]->update_Device();
+        }
 
 
         // In the following section, i will make a readout of all the states of all the buttons and sliders
@@ -184,16 +187,32 @@ public:
         // the following section checks if the sliders have been moved
         //Serial.println("Check if sliders have been moved");
         for (int i = 0; i < sliderCount; i++) {
-            if (abs(sliders[i]->get_position() - slidersLastTransmittedPosition[i]) > 2 && currentTime - lastsliderTouchTime[i] > sliderChangeTimeout[i]) {
+            if (sliders[i]->isNoisy()) {
+                if (abs(sliders[i]->get_position() - slidersLastTransmittedPosition[i]) > 2 && currentTime - lastsliderTouchTime[i] > sliderChangeTimeout[i]) {
+                    slidersLastTransmittedPosition[i] = sliders[i]->get_position();
+                    // RUN EVENT: SLIDER MOVED
+                    try {
+                        activeMenus[currentMenuIndex]->on_SliderChange(i, sliders[i]);
+                    } catch (const std::exception& e) {
+                        Serial.print("Error on Slider Change of activeMenu with ID: ");
+                        Serial.print(activeMenus[currentMenuIndex] -> get_id());
+                        Serial.print(" Error: ");
+                        Serial.println(e.what());
+                    }
+                }
+            }
+            else {
+                if (sliders[i]->get_position() != slidersLastTransmittedPosition[i] && currentTime - lastsliderTouchTime[i] > sliderChangeTimeout[i]) {
                 slidersLastTransmittedPosition[i] = sliders[i]->get_position();
                 // RUN EVENT: SLIDER MOVED
                 try {
-                    activeMenus[currentMenuIndex]->on_SliderChange(i, sliders[i]);
-                } catch (const std::exception& e) {
-                    Serial.print("Error on Slider Change of activeMenu with ID: ");
-                    Serial.print(activeMenus[currentMenuIndex] -> get_id());
-                    Serial.print(" Error: ");
-                    Serial.println(e.what());
+                        activeMenus[currentMenuIndex]->on_SliderChange(i, sliders[i]);
+                    } catch (const std::exception& e) {
+                        Serial.print("Error on Slider Change of activeMenu with ID: ");
+                        Serial.print(activeMenus[currentMenuIndex] -> get_id());
+                        Serial.print(" Error: ");
+                        Serial.println(e.what());
+                    }
                 }
             }
         }
@@ -340,7 +359,6 @@ public: // This section is for getting infomation about the buttons and sliders
         return -1; // or any suitable default value indicating an error
     }
 }
-
     long get_timeSinceSliderTouch(int sliderIndex) {
         try {
             return millis() - lastsliderTouchTime[sliderIndex];
@@ -349,7 +367,6 @@ public: // This section is for getting infomation about the buttons and sliders
             return -1; // or any suitable default value indicating an error
         }
     }
-
     bool get_buttonPress(int buttonIndex) {
         try {
             return buttons[buttonIndex]->get_state();
@@ -358,7 +375,6 @@ public: // This section is for getting infomation about the buttons and sliders
             return false; // or any suitable default value indicating an error
         }
     }
-
     int get_sliderPosition(int sliderIndex) {
         try {
             return sliders[sliderIndex]->get_position();
@@ -367,7 +383,6 @@ public: // This section is for getting infomation about the buttons and sliders
             return -1; // or any suitable default value indicating an error
         }
     }
-
     Slider* get_slider(int sliderIndex) {
         try {
             return sliders[sliderIndex];
@@ -376,7 +391,6 @@ public: // This section is for getting infomation about the buttons and sliders
             return nullptr; // or any suitable default value indicating an error
         }
     }
-
     Button* get_button(int buttonIndex) {
         try {
             return buttons[buttonIndex];
@@ -385,7 +399,6 @@ public: // This section is for getting infomation about the buttons and sliders
             return nullptr; // or any suitable default value indicating an error
         }
     }
-
     Strip* get_strip() {
         try {
             return strip;
@@ -394,7 +407,6 @@ public: // This section is for getting infomation about the buttons and sliders
             return nullptr; // or any suitable default value indicating an error
         }
     }
-
     int get_menuCount() {
         return menuCount;
     }
@@ -453,8 +465,67 @@ public: // This section is for getting infomation about the buttons and sliders
             return -1; // or any suitable default value indicating an error
         }
     }
-
-
-
-
+    void convert_toLinearSlider(int sliderIndex) {
+        try {
+            sliders[sliderIndex] = Converter::convertToLinearSlider(sliders[sliderIndex]);
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
+    }
+    void convert_toSteppedSlider(int sliderIndex, int notches) {
+        try {
+            sliders[sliderIndex] = Converter::convertToSteppedSlider(sliders[sliderIndex], notches);
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
+    } 
+    void convert_toLitLinearSlider(int sliderIndex, Strip* stripptr) {
+        try {
+            sliders[sliderIndex] = Converter::convertToLitLinearSlider(sliders[sliderIndex], stripptr);
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
+    }
+    void convert_toLitSteppedSlider(int sliderIndex, int notches, Strip* stripptr) {
+        try {
+            sliders[sliderIndex] = Converter::convertToLitSteppedSlider(sliders[sliderIndex], notches, stripptr);
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
+    }
+    void convert_toButton(int buttonIndex) {
+        try {
+            buttons[buttonIndex] = Converter::convertToButton(buttons[buttonIndex]);
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
+    }
+    void convert_toLedButton(int buttonIndex, Strip* stripptr) {
+        try {
+            buttons[buttonIndex] = Converter::convertToLedButton(buttons[buttonIndex], stripptr);
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
+    }
+    void convert_toLedCD74HC165E_Button(int buttonIndex, Strip* stripptr) {
+        try {
+            buttons[buttonIndex] = Converter::convertToLedCD74HC165E_Button((CD74HC165E_Button*)buttons[buttonIndex], stripptr);
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
+    }
+    void convert_toCD74HC165E_Button(int buttonIndex) {
+        try {
+            buttons[buttonIndex] = Converter::convertToCD74HC165E_Button((LedCD74HC165E_Button*)buttons[buttonIndex]);
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
+    }
+    void convert_toButton(int buttonIndex, Strip* stripptr) {
+        try {
+            buttons[buttonIndex] = Converter::convertToButton(buttons[buttonIndex]);
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
+    }
 };
