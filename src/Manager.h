@@ -333,25 +333,66 @@ public: // This section is for setting timeouts for the buttons and sliders
     }
 public: // This section is for getting infomation about the buttons and sliders
     long get_timeSinceButtonPress(int buttonIndex) {
+    try {
         return millis() - lastbuttonPressTime[buttonIndex];
+    } catch (...) {
+        Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        return -1; // or any suitable default value indicating an error
     }
+}
+
     long get_timeSinceSliderTouch(int sliderIndex) {
-        return millis() - lastsliderTouchTime[sliderIndex];
+        try {
+            return millis() - lastsliderTouchTime[sliderIndex];
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return -1; // or any suitable default value indicating an error
+        }
     }
+
     bool get_buttonPress(int buttonIndex) {
-        return buttons[buttonIndex]->get_state();
+        try {
+            return buttons[buttonIndex]->get_state();
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return false; // or any suitable default value indicating an error
+        }
     }
+
     int get_sliderPosition(int sliderIndex) {
-        return sliders[sliderIndex]->get_position();
+        try {
+            return sliders[sliderIndex]->get_position();
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return -1; // or any suitable default value indicating an error
+        }
     }
+
     Slider* get_slider(int sliderIndex) {
-        return sliders[sliderIndex];
+        try {
+            return sliders[sliderIndex];
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return nullptr; // or any suitable default value indicating an error
+        }
     }
+
     Button* get_button(int buttonIndex) {
-        return buttons[buttonIndex];
+        try {
+            return buttons[buttonIndex];
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return nullptr; // or any suitable default value indicating an error
+        }
     }
+
     Strip* get_strip() {
-        return strip;
+        try {
+            return strip;
+        } catch (...) {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+            return nullptr; // or any suitable default value indicating an error
+        }
     }
 
 

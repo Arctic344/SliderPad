@@ -10,6 +10,7 @@ class Manager; // foreward declaration since i will have a loop here
 class Menu {
     private:
         int id;
+    protected:
         Manager* manager;
     public:
         Menu(int id) {
@@ -53,7 +54,7 @@ class Menu {
             return;
         }
         virtual void  on_ButtonPress(int buttonIndex, Button* button) {
-            Serial.println("Warning: BUTTON PRESS FUNCTION NOT DEFINED");
+            Serial.println("Warning: BUTTON PRESS FUNCTION NOT DEFINED"); 
             return;
         }
         virtual void  on_ButtonRelease(int buttonIndex, Button* button) {
