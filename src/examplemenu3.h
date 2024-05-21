@@ -28,10 +28,19 @@ class Example3 : public Menu {
     }
     void on_ButtonPress(int buttonIndex, Button* button) override{
         io.run();
-        SliderPadTestValue->save(1);
+        SliderPadTestValue->save(manager->get_slider(0)->get_position());
     }
     void run_menu() override{
         io.run();
+    }
+    void on_MenuSelected() override{
+        manager->convert_toLinearSlider(0);
+        manager->get_slider(0)->set_goal(0);
+        manager->get_strip()->updateAll(0, 0, 0);
+        manager->set_buttonReleaseTimeout(0,0);
+        manager->set_buttonReleaseTimeout(1,0);
+        manager->set_buttonReleaseTimeout(2,0);
+        manager->set_sliderChangeTimeout(0, 1000);
     }
 
 };
