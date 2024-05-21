@@ -40,7 +40,7 @@ private:
     int* sliderChangeTimeout;
 
 
-    int* slidersLastPosition;
+    int* slidersLastTransmittedPosition;
     int* slidersLastTouchState;
     int* buttonsLastState;
     long lastScanTime;
@@ -127,7 +127,6 @@ public:
                 // RUN EVENT: SLIDER TOUCHED
                 activeMenus[currentMenuIndex]->on_SliderTouch(i, sliders[i]);
             }
-            slidersLastTouchState[i] = sliders[i]->isTouched();
         }
         // the following section checks if the sliders have been released
         //Serial.println("Check if sliders have been released");
@@ -142,8 +141,8 @@ public:
         // the following section checks if the sliders have been moved
         //Serial.println("Check if sliders have been moved");
         for (int i = 0; i < sliderCount; i++) {
-            if (sliders[i]->get_position() != slidersLastPosition[i] && currentTime - lastsliderTouchTime[i] > sliderChangeTimeout[i]) {
-                slidersLastPosition[i] = sliders[i]->get_position();
+            if (abs(sliders[i]->get_position() - slidersLastTransmittedPosition[i]) > 2 && currentTime - lastsliderTouchTime[i] > sliderChangeTimeout[i]) {
+                slidersLastTransmittedPosition[i] = sliders[i]->get_position();
                 // RUN EVENT: SLIDER MOVED
                 activeMenus[currentMenuIndex]->on_SliderChange(i, sliders[i]);
             }
@@ -209,7 +208,7 @@ public: // constructor
         this->sliderReleaseTimeout = new int[sliderCount];
         this->sliderChangeTimeout = new int[sliderCount];
 
-        this->slidersLastPosition = new int[sliderCount];
+        this->slidersLastTransmittedPosition = new int[sliderCount];
         this->slidersLastTouchState = new int[sliderCount];
         this->buttonsLastState = new int[buttonCount];
         this->lastScanTime = millis();
@@ -230,12 +229,15 @@ public: // constructor
             buttonReleaseTimeout[i] = 100;
         }
         for (int i = 0; i < sliderCount; i++) {
-            slidersLastPosition[i] = sliders[i]->get_position();
+            slidersLastTransmittedPosition[i] = sliders[i]->get_position();
             slidersLastTouchState[i] = sliders[i]->isTouched();
             lastsliderTouchTime[i] = 0;
             sliderTouchTimeout[i] = 100;
             sliderReleaseTimeout[i] = 100;
             sliderChangeTimeout[i] = 100;
+        }
+        for (int i = 0; i < menuCount; i++) {
+            menus[i]->on_setup();
         }
     }
 public: // This section is for setting timeouts for the buttons and sliders

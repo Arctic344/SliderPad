@@ -12,7 +12,11 @@ class Menu {
         Menu(int id) {
             this->id = id;
         }
-        virtual void  run_menu() {
+        virtual void on_setup() {
+            Serial.println("Warning: MENU SETUP FUNCTION NOT DEFINED");
+            return;
+        }
+        virtual void run_menu() {
             Serial.println("Warning: MENU RUN FUNCTION NOT DEFINED");
             return;
         }
@@ -21,10 +25,10 @@ class Menu {
             return;
 
         }
-        virtual bool  is_menuActive() {
+        virtual bool is_menuActive() {
             return true;
         }
-        virtual void  menu_background_action() {
+        virtual void menu_background_action() {
             Serial.println("Warning: MENU BACKGROUND ACTION FUNCTION NOT DEFINED");
             return;
         }

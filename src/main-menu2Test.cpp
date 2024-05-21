@@ -34,6 +34,9 @@ IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);
 Potentiometer* p1 = new MC14051_Potentiometer(1,mux1ptr);
 Capacitivetouch* t1 = new Capacitivetouch(1);
 Motor* m1 = new Motor(&driver,1);
+Potentiometer* p2 = new MC14051_Potentiometer(2,mux1ptr);
+Capacitivetouch* t2 = new Capacitivetouch(2);
+Motor* m2 = new Motor(&driver,2);
 
 
 
@@ -54,8 +57,10 @@ Button* menuButtons[menuButtonCount] = {
 
 
 // create the list of sliders for the manager
-#define givenSliderCount 0
-Slider* sliders[givenSliderCount] = {};
+#define givenSliderCount 1
+Slider* sliders[givenSliderCount] = {
+  new LinearSlider(m2,p2,t2)
+};
 
 
 // create a list of all your display (should only be 1)
@@ -92,6 +97,8 @@ void setup() {
   }
   u1.addNode(t1);
   u1.addNode(p1);
+  u1.addNode(t2);
+  u1.addNode(p2);
   manager = new Manager(
     s1,
     menuButtons,
@@ -101,7 +108,7 @@ void setup() {
     menuCount,
     sliders,
     givenButtons,
-    0,
+    givenSliderCount,
     givenButtonCount,
     &d1
   );

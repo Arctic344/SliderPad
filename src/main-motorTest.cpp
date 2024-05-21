@@ -2,12 +2,13 @@
 #include <Adafruit_PWMServoDriver.h>
 #include "slider.h"
 #include <Wire.h>
+#include "Adafruit_ILI9341.h"
 
 // The following sets up the driver for the Motors
 Adafruit_PWMServoDriver driver(0x60);
 
 // The following sets up the motors
-Motor m1(&driver,3);
+Motor m1(&driver,2);
 
 void setup() {
   // The following sets up debug system and prints a message to check if initiated
