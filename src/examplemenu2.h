@@ -4,11 +4,11 @@
 class Example2 : public Menu {
     private:
     public:
-    Example2() {
+    Example2() : Menu(1) {
 
     }
     public:
-    void on_buttonPress(int buttonIndex, Button* button) {
+    void on_ButtonPress(int buttonIndex, Button* button) override{
         Serial.println("Example 2 did button press");
     }
 };

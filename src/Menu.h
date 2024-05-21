@@ -12,19 +12,19 @@ class Menu {
         Menu(int id) {
             this->id = id;
         }
-        void virtual run_menu() {
+        virtual void  run_menu() {
             Serial.println("Warning: MENU RUN FUNCTION NOT DEFINED");
             return;
         }
-        void virtual draw_menu() {
+        virtual void  draw_menu() {
             Serial.println("Warning: MENU DRAW FUNCTION NOT DEFINED");
             return;
 
         }
-        bool virtual is_menuActive() {
+        virtual bool  is_menuActive() {
             return true;
         }
-        void virtual menu_background_action() {
+        virtual void  menu_background_action() {
             Serial.println("Warning: MENU BACKGROUND ACTION FUNCTION NOT DEFINED");
             return;
         }
@@ -33,29 +33,35 @@ class Menu {
             return nullptr;
         }
     public:
-        void virtual on_SliderChange(int sliderIndex, Slider* slider) {
+        virtual void  on_SliderChange(int sliderIndex, Slider* slider) {
+            Serial.println("Warning: SLIDER CHANGE FUNCTION NOT DEFINED");
             return;
         }
-        void virtual on_SliderRelease(int sliderIndex, Slider* slider) {
+        virtual void  on_SliderRelease(int sliderIndex, Slider* slider) {
+            Serial.println("Warning: SLIDER RELEASE FUNCTION NOT DEFINED");
             return;
         }
-        void virtual on_SliderTouch(int sliderIndex, Slider* slider) {
+        virtual void  on_SliderTouch(int sliderIndex, Slider* slider) {
+            Serial.println("Warning: SLIDER TOUCH FUNCTION NOT DEFINED");
             return;
         }
-        void virtual on_ButtonPress(int buttonIndex, Button* button) {
+        virtual void  on_ButtonPress(int buttonIndex, Button* button) {
+            Serial.println("Warning: BUTTON PRESS FUNCTION NOT DEFINED");
             return;
         }
-        void virtual on_ButtonRelease(int buttonIndex, Button* button) {
+        virtual void  on_ButtonRelease(int buttonIndex, Button* button) {
+            Serial.println("Warning: BUTTON RELEASE FUNCTION NOT DEFINED");
             return;
         }
-        void virtual on_ButtonHold(int buttonIndex, Button* button) {
+        virtual void  on_ButtonHold(int buttonIndex, Button* button) {
+            Serial.println("Warning: BUTTON HOLD FUNCTION NOT DEFINED");
             return;
         }
-        void virtual on_MenuSelected() {
+        virtual void  on_MenuSelected() {
             Serial.println("Warning: MENU SELECTED FUNCTION NOT DEFINED");
             return;
         }
-        void virtual on_MenuDeselected() {
+        virtual void  on_MenuDeselected() {
             Serial.println("Warning: MENU DESELECTED FUNCTION NOT DEFINED");
             return;
         }

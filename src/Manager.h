@@ -114,7 +114,7 @@ public:
             if (menuButtons[i]->get_state() == true && menuButtonsLastState[i]== false && currentTime - lastMenuButtonPressTime[i] > menuButtonPressTimeout[i]) {
                     lastMenuButtonPressTime[i] = currentTime;
                     // RUN EVENT: MENU BUTTON PRESSED
-                    Serial.print("Menu button pressed ");
+                    Serial.print("Manager button pressed ");
                     Serial.println(i);
             }
             menuButtonsLastState[i] = menuButtons[i]->get_state();
@@ -125,8 +125,7 @@ public:
             if (sliders[i]->isTouched() == true && slidersLastTouchState[i] == false && currentTime - lastsliderTouchTime[i] > sliderTouchTimeout[i]) {
                 lastsliderTouchTime[i] = currentTime;
                 // RUN EVENT: SLIDER TOUCHED
-                Serial.print("Slider touched ");
-                Serial.println(i);
+                activeMenus[currentMenuIndex]->on_SliderTouch(i, sliders[i]);
             }
             slidersLastTouchState[i] = sliders[i]->isTouched();
         }
@@ -136,8 +135,7 @@ public:
             if (sliders[i]->isTouched() == false && slidersLastTouchState[i] == true && currentTime - lastsliderTouchTime[i] > sliderReleaseTimeout[i]) {
                 lastsliderTouchTime[i] = currentTime;
                 // RUN EVENT: SLIDER RELEASED
-                Serial.print("Slider released ");
-                Serial.println(i);
+                activeMenus[currentMenuIndex]->on_SliderRelease(i, sliders[i]);
             }
             slidersLastTouchState[i] = sliders[i]->isTouched();
         }
@@ -147,8 +145,7 @@ public:
             if (sliders[i]->get_position() != slidersLastPosition[i] && currentTime - lastsliderTouchTime[i] > sliderChangeTimeout[i]) {
                 slidersLastPosition[i] = sliders[i]->get_position();
                 // RUN EVENT: SLIDER MOVED
-                Serial.print("Slider moved ");
-                Serial.println(i);
+                activeMenus[currentMenuIndex]->on_SliderChange(i, sliders[i]);
             }
         }
         // the following section checks if the buttons have been pressed
@@ -157,8 +154,7 @@ public:
             if (buttons[i]->get_state() == true && buttonsLastState[i] == false && currentTime - lastbuttonPressTime[i] > buttonPressTimeout[i]) {
                 lastbuttonPressTime[i] = currentTime;
                 // RUN EVENT: BUTTON PRESSED
-                Serial.print("Button pressed ");
-                Serial.println(i);
+                activeMenus[currentMenuIndex]->on_ButtonPress(i, buttons[i]);
             }
         }
         // the following section checks if the buttons have been released
@@ -167,8 +163,7 @@ public:
             if (buttons[i]->get_state() == false && buttonsLastState[i] == true && currentTime - lastbuttonPressTime[i] > buttonReleaseTimeout[i]) {
                 lastbuttonPressTime[i] = currentTime;
                 // RUN EVENT: BUTTON RELEASED
-                Serial.print("Button released ");
-                Serial.println(i);
+                activeMenus[currentMenuIndex]->on_ButtonRelease(i, buttons[i]);
             }
             buttonsLastState[i] = buttons[i]->get_state();
         }

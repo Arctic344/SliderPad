@@ -2,13 +2,12 @@
 #include "Menu.h"
 
 class Example1 : public Menu {
-    private:
     public:
-    Example1() {
+    Example1() : Menu(1){
 
     }
     public:
-    void on_buttonPress(int buttonIndex, Button* button) {
+    void on_ButtonPress(int buttonIndex, Button* button) override{
         Serial.println("Example 1 did button press");
     }
 };
