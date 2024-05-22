@@ -95,6 +95,7 @@ public:
         Serial.print("  S: ");
         for (int i = 0; i < sliderCount; i++) {
             Serial.print(sliders[i]->get_position());
+            Serial.print(" ");
         }
         Serial.print("  B: ");
         for (int i = 0; i < buttonCount; i++) {

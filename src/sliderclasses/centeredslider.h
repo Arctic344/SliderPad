@@ -23,11 +23,25 @@ class CenteredSlider: public Slider{
         }
 
         void update_Device() override {
+            #ifdef DEBUG
+            Serial.print("pos:");
+            Serial.print(pot->get_potValue());
+            Serial.print("  force:");
+            #endif
             if (abs(pot->get_potValue() - 50) < 3) {
+                #ifdef DEBUG
+                Serial.println("centered");
+                #endif
                 motor->setSpeed(0);
             } else if (pot->get_potValue() - 50 > 0) {
+                #ifdef DEBUG
+                Serial.println(speedToTarget+0.1*abs(pot->get_potValue() - 50));
+                #endif
                 motor->setSpeed(speedToTarget+0.1*abs(pot->get_potValue() - 50));
             } else {
+                #ifdef DEBUG
+                Serial.println((speedToTarget+0.1*abs(pot->get_potValue() - 50))*-1);
+                #endif
                 motor->setSpeed((speedToTarget+0.1*abs(pot->get_potValue() - 50))*-1);
             }
         }

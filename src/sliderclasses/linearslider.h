@@ -20,6 +20,13 @@ class LinearSlider: public Slider{
         }
 
         void update_Device() override {
+            #ifdef DEBUG
+            Serial.print("pos:");
+            Serial.print(pot->get_potValue());
+            Serial.print("  goal:");
+            Serial.print(goal);
+            Serial.print("  force:");
+            #endif
             if (goal == -100 || touch->get_touchBool()) {
                 goal = -100;
                 motor->setSpeed(0);
