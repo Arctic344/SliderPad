@@ -10,6 +10,21 @@
 #include "Adafruit_NeoPixel.h"
 #include "Strip.h"
 
+/**
+ * @brief Updates the device by performing various tasks such as timing, updating components, and handling input events.
+ * 
+ * This function is responsible for updating the device by performing the following tasks:
+ * - Setting up the timing by calculating the current time and the time since the last scan.
+ * - Updating all components, including the menu select slider and sliders.
+ * - Reading the states of all buttons and sliders.
+ * - Updating the list of active menus and changing the system if new menus are active.
+ * - Checking if the menu select slider value has changed and changing the menus accordingly.
+ * - Checking if menu buttons have been pressed or released and triggering the corresponding events.
+ * - Running the active menu's logic.
+ * - Checking if sliders have been touched, released, or moved and triggering the corresponding events.
+ * - Checking if buttons have been pressed and triggering the corresponding events.
+ * 
+ */
 class Manager {
 private:
     SteppedSlider* menuSelectSlider;
