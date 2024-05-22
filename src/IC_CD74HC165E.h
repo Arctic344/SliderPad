@@ -2,6 +2,12 @@
 #include <Arduino.h>
 #include "Node.h"
 
+/**
+ * @brief Represents a shift register IC (CD74HC165E).
+ * 
+ * This class provides functionality to interface with a CD74HC165E shift register IC.
+ * It allows reading the state of multiple input pins using a minimal number of microcontroller pins.
+ */
 class IC_CD74HC165E : public Node {
 private:
     int dataPin;                 // Serial Data Input (DS)
@@ -11,6 +17,14 @@ private:
     uint64_t storedValue;        // Private variable to store the read value
 
 public:
+    /**
+     * @brief Constructs an instance of the IC_CD74HC165E class with the specified parameters.
+     * 
+     * @param data The pin number for the Serial Data Input (DS) pin.
+     * @param clock The pin number for the Shift Register Clock Input (SH_CP) pin.
+     * @param load The pin number for the Storage Register Clock Input (ST_CP) pin.
+     * @param noOfRegisters The number of chained registers.
+     */
     IC_CD74HC165E(int data, int clock, int load, int noOfRegisters) {
         dataPin = data;
         clockPin = clock;
@@ -24,10 +38,23 @@ public:
         digitalWrite(loadPin, LOW);  // Set load pin LOW initially
     }
 
+    /**
+     * @brief Constructs an instance of the IC_CD74HC165E class with the specified parameters and a default of 1 chained register.
+     * 
+     * @param data The pin number for the Serial Data Input (DS) pin.
+     * @param clock The pin number for the Shift Register Clock Input (SH_CP) pin.
+     * @param load The pin number for the Storage Register Clock Input (ST_CP) pin.
+     */
     IC_CD74HC165E(int data, int clock, int load) : IC_CD74HC165E(data, clock, load, 1) {
         // Default constructor with 1 chained register
     }
 
+    /**
+     * @brief Updates the stored value by reading the state of the shift register.
+     * 
+     * This function reads the state of the shift register and stores the value internally.
+     * It should be called whenever the state of the shift register needs to be updated.
+     */
     void update_nodeValue() override {
         uint64_t data = 0;  
         digitalWrite(loadPin, LOW); // Pull latch low to start the data transfer
@@ -45,10 +72,21 @@ public:
         storedValue = data; // Store the read value
     }
 
+    /**
+     * @brief Gets the stored value of the shift register.
+     * 
+     * @return The stored value of the shift register as a 64-bit unsigned integer.
+     */
     uint64_t get_storedValue() {
         return storedValue;
     }
 
+    /**
+     * @brief Gets the state of a specific bit in the stored value.
+     * 
+     * @param n The index of the bit to retrieve (0-63).
+     * @return The state of the specified bit (true if the bit is set, false otherwise).
+     */
     bool get_storedBool(int n) {
         if (n < 0 || n >= 64) {
             return false;

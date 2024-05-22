@@ -1,6 +1,16 @@
 #pragma once
 #include "../Slider.h"
 
+/**
+         * @brief A slider that always tries to go to the center with force.
+         * 
+         * The CenteredSlider class is a subclass of the Slider class. It represents a slider that is designed to always try to go to the center position with force.
+         * The return value of the slider is the offset it has from the center position.
+         * 
+         * @param motor A pointer to the Motor object used by the slider.
+         * @param pot A pointer to the Potentiometer object used by the slider.
+         * @param touch A pointer to the Capacitivetouch object used by the slider.
+         */
 class CenteredSlider: public Slider{
     private:
         int speedToTarget;

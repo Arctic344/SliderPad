@@ -1,6 +1,11 @@
 #pragma once
 #include "../Slider.h"
 
+/**
+ * @brief A linear slider that does not react, but can be asked to move to any position.
+ *        If it is interrupted, it stays at that position.
+ * @note  This is inherited from slider
+ */
 class LinearSlider: public Slider{
     protected:
         int speedToTarget;

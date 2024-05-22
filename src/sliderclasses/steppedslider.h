@@ -1,6 +1,10 @@
 #pragma once
 #include "../slider.h"
 
+/**
+ * @brief A slider that has notches, hence it is only happy being in 0-n positions.
+ * The amount of positions can be set.
+ */
 class SteppedSlider: public Slider{
     protected: 
         int numberOfNotches;
@@ -86,12 +90,18 @@ class SteppedSlider: public Slider{
         void set_speedToTarget(int speed) override {
             this->speedToTarget = 30+speed;
         }
+        /**
+         * Sets the number of notches for the stepped slider.
+         * 
+         * @param notches The number of notches to set. Must be greater than 0 and less than or equal to 10.
+         *                Note: It is recommended to keep the number of notches below 10 for optimal performance.
+         */
         void set_numberOfNotches(int notches) override {
             if (notches < 1) {
-                return; //exception needed
+                return;
             }
             if (notches > 10) {
-                return; //exception needed
+                return; 
             }
             if (notches == 1) {
                 goal = -100;

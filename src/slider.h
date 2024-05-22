@@ -4,6 +4,14 @@
 #include "capacitivetouch.h"
 #include "Arduino.h"
 
+/**
+ * @brief Abstract class dedicated to driving the SM1001NKa0x ha1 019 motorised linear potentiometer.
+ * 
+ * The `Slider` class provides a set of methods to control and interact with the motorised linear potentiometer.
+ * It serves as a base class for implementing specific functionality for different potentiometer models.
+ * 
+ * @note This class is abstract and cannot be instantiated directly.
+ */
 class Slider { // Class dedicated to driving the SM10001NKA0X-HA1-019 Motorised Linear Potentiometer
     protected:
         Potentiometer* pot;

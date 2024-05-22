@@ -7,6 +7,16 @@
 
 class Manager; // foreward declaration since i will have a loop here
 
+/**
+ * @class Menu
+ * @brief A base class for menus.
+ * 
+ * The `Menu` class provides a base implementation for menus in a user interface. It contains common functionality and virtual functions that can be overridden by derived classes to customize the behavior of specific menus.
+ * 
+ * The `Menu` class is designed to be inherited from and extended to create different types of menus.
+ * 
+ * It can be instantiated with a unique ID that can be used to identify the menu.
+ */
 class Menu {
     private:
         int id;

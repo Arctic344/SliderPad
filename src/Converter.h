@@ -10,6 +10,21 @@
 #include "Strip.h"
 
 
+/**
+ * @brief A converter that converts different objects into compatible other objects during runtime.
+ * 
+ * The `Converter` class provides static methods to convert objects of one type to another type.
+ * It is designed to convert `Slider` and `Button` objects into different types of sliders and buttons,
+ * based on the provided parameters.
+ * 
+ * The converted objects are dynamically allocated and the original objects are deleted.
+ * 
+ * Usage example:
+ * ```
+ * Slider* slider = new Slider();
+ * Slider* centeredSlider = Converter::convertToCenteredSlider(slider);
+ * ```
+ */
 class Converter {
 public:
     Converter() {
@@ -59,6 +74,14 @@ public:
         delete b;
         return returnpointer;
     }   
+    /**
+     * Converts RGB color values to 16-bit RGB565 format.
+     *
+     * @param red The red component of the RGB color (0-255).
+     * @param green The green component of the RGB color (0-255).
+     * @param blue The blue component of the RGB color (0-255).
+     * @return The 16-bit RGB565 color value. 
+     */
     static uint16_t RGBto565(uint8_t red, uint8_t green, uint8_t blue) {
         // Mask and shift the red component to 5 bits
         uint16_t r = (red >> 3) & 0x1F;

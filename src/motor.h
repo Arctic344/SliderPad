@@ -1,6 +1,12 @@
 #pragma once
 #include "Adafruit_PWMServoDriver.h"
 
+/**
+ * @brief The Motor class represents a motor connected to a custom motor driver.
+ * 
+ * The Motor class provides methods to control the speed and direction of the motor.
+ * It communicates with the motor driver through the Adafruit_PWMServoDriver library.
+ */
 class Motor {
     private:
         Adafruit_PWMServoDriver* associatedDevice; // the PWMServoDriver device which has the motor attached
