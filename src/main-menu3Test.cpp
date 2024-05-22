@@ -15,7 +15,7 @@
 // include the menus you would like to
 #include "examplemenu1.h"
 #include "examplemenu2.h"
-#include "examplemenu3.h"
+#include "examplemenu4.h"
 
 // hardware definitions
 // Start with adding the managerPointer for later use
@@ -81,7 +81,7 @@ SteppedSlider* s1 = new SteppedSlider(m1,p1,t1,0);
 Menu* menus[menuCount] = {
   new Example1(),
   new Example2(),
-  new Example3()
+  new Example4()
 };
 
 
