@@ -11,6 +11,7 @@ class Strip {
         Adafruit_NeoPixel* strip;   ///< Pointer to the Adafruit_NeoPixel strip object.
         uint16_t startIndex;        ///< Index of the first LED in the substrip.
         uint16_t noOfLights;         ///< Number of LEDs in the substrip.
+        uint8_t brightness;
     public:
         /**
          * @brief Constructs a `Strip` object.
@@ -28,6 +29,19 @@ class Strip {
                 this->noOfLights = strip->numPixels() - startIndex;
             }
             this->noOfLights = noOfLights;
+            this->brightness = 255;
+        }
+
+                Strip(Adafruit_NeoPixel* strip, uint16_t startIndex, uint16_t noOfLights, uint8_t brightness) {
+            this->strip = strip;
+            this->startIndex = startIndex;
+            if (strip->numPixels() < startIndex + noOfLights) {
+                this->noOfLights = noOfLights;
+            } else {
+                this->noOfLights = strip->numPixels() - startIndex;
+            }
+            this->noOfLights = noOfLights;
+            this->brightness = brightness;
         }
         
         /**
@@ -39,6 +53,7 @@ class Strip {
          * @param b Blue color component (0-255).
          */
         void updateLed(uint16_t index, uint8_t r, uint8_t g, uint8_t b) {
+            float factor = map(brightness, 0, 255, 0, 1);
             strip->setPixelColor(startIndex + index, strip->Color(r, g, b));
         }
 
@@ -50,9 +65,20 @@ class Strip {
          * @param b Blue color component (0-255).
          */
         void updateAll(uint8_t r, uint8_t g, uint8_t b) {
+            float factor = map(brightness, 0, 255, 0, 1);
             for (int i = startIndex; i < startIndex + noOfLights; i++) {
                 strip->setPixelColor(i, strip->Color(r, g, b));
             }
+        }
+
+        void set_brightness(uint8_t brightness) {
+            if (brightness > 255) {
+                brightness = 255;
+            }
+            if (brightness < 0) {
+                brightness = 0;
+            }
+            this->brightness = brightness;
         }
 
         /**
@@ -64,6 +90,7 @@ class Strip {
          * @param b Blue color component (0-255).
          */
         void updatePercentage(uint8_t percentage, uint8_t r, uint8_t g, uint8_t b) {
+            float factor = map(brightness, 0, 255, 0, 1);
             uint16_t noOfLightsToLight = (percentage * noOfLights) / 100;
             for (int i = startIndex; i < startIndex + noOfLightsToLight; i++) {
                 strip->setPixelColor(i, strip->Color(r, g, b));

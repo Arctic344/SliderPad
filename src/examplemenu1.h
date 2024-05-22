@@ -32,5 +32,6 @@ class Example1 : public Menu {
         manager->set_buttonReleaseTimeout(0,0);
         manager->set_buttonReleaseTimeout(1,0);
         manager->set_buttonReleaseTimeout(2,0);
+        manager->get_strip()->set_brightness(50);
     }
 };
