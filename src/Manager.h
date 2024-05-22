@@ -338,19 +338,39 @@ public: // constructor
     }
 public: // This section is for setting timeouts for the buttons and sliders
     void set_buttonPressTimeout(int buttonIndex, int timeout) {
-        buttonPressTimeout[buttonIndex] = timeout;
+        if (buttonIndex < buttonCount && buttonIndex >= 0) {
+            buttonPressTimeout[buttonIndex] = timeout;
+        } else {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
     }
     void set_buttonReleaseTimeout(int buttonIndex, int timeout) {
-        buttonReleaseTimeout[buttonIndex] = timeout;
+        if (buttonIndex < buttonCount && buttonIndex >= 0) {
+            buttonReleaseTimeout[buttonIndex] = timeout;
+        } else {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
     }
     void set_sliderChangeTimeout(int sliderIndex, int timeout) {
-        sliderChangeTimeout[sliderIndex] = timeout;
+        if (sliderIndex < sliderCount && sliderIndex >= 0) {
+            sliderChangeTimeout[sliderIndex] = timeout;
+        } else {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
     }
     void set_sliderTouchTimeout(int sliderIndex, int timeout) {
-        sliderTouchTimeout[sliderIndex] = timeout;
+        if (sliderIndex < sliderCount && sliderIndex >= 0) {
+            sliderTouchTimeout[sliderIndex] = timeout;
+        } else {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
     }
     void set_sliderReleaseTimeout(int sliderIndex, int timeout) {
-        sliderReleaseTimeout[sliderIndex] = timeout;
+        if (sliderIndex < sliderCount && sliderIndex >= 0) {
+            sliderReleaseTimeout[sliderIndex] = timeout;
+        } else {
+            Serial.println("ERROR: Action not possible: check indexes, likely out of range");
+        }
     }
 public: // This section is for getting infomation about the buttons and sliders
     long get_timeSinceButtonPress(int buttonIndex) {
