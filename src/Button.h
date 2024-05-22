@@ -1,7 +1,8 @@
 #pragma once
 #include <Arduino.h>
+#include "Node.h"
 
-class Button : public Node{
+class Button : public Node {
     protected:
         int pin;
         bool state;
