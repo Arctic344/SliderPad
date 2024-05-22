@@ -2,18 +2,26 @@
 #include <Adafruit_PWMServoDriver.h>
 #include "slider.h"
 #include <Wire.h>
-#include "Adafruit_ILI9341.h"
-#include "AdafruitIO_WiFi.h"
+
+// Defunct test, only used for early testing of the slider
 
 // The following sets up the driver for the Motors
 Adafruit_PWMServoDriver driver(0x60);
 
+IC_MC14051 *mux1ptr = new IC_MC14051(9,21,20,19);
+
+MC14051_Potentiometer p1(1,mux1ptr);
+
+Capacitivetouch t1(1);
+
 // The following sets up the motors
-Motor m1(&driver,2,1);
+Motor m1(&driver,1);
+
+Slider s1(p1,m1,t1);
 
 void setup() {
   // The following sets up debug system and prints a message to check if initiated
-  Serial.begin(115200);
+  Serial.begin(9600);
   delay(500);
   Serial.println("Hello world");
 
@@ -29,13 +37,8 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("Setting motor to fast");
-  m1.setSpeed(70);
-  delay(200);
-  Serial.println("Setting motor to reverse");
-  m1.setSpeed(-70);
-  delay(200);
-  Serial.println("Setting motor to Stop");
-  m1.setSpeed(0);
-  delay(2000);
+  Serial.println("calibrating Slider");
+  s1.calibrate();
+  delay(5000);
+  
 }
